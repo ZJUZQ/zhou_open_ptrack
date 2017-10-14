@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="network_file" default="$(find opt_calibration)/conf/camera_network.yaml" />
+  <arg name="network_calibration_launch_file"  default="$(find opt_calibration)/launch/opt_calibration_master.launch" />
+  <arg name="frame_calibration_launch_file"  default="$(find opt_calibration)/launch/opt_define_reference_frame.launch" />
+
+  <arg name="debug_yaml" default="$(find opt_calibration)/conf/debug.yaml" />
+
+  <!-- arg name="debug_code_flow_file" default="$(find opt_calibration)/docs/debug_code_flow_file.txt" /-->
+
+  <!-- Launching calibration initializer -->
+  <node pkg="opt_calibration" type="calibration_initializer.py"
+        name="calibration_initializer" output="screen" required="true">
+    <rosparam command="load"  file="$(arg network_file)" />
+    <param name="network_calibration_launch_file" value="$(arg network_calibration_launch_file)" />
+    <param name="frame_calibration_launch_file" value="$(arg frame_calibration_launch_file)" />
+
+    <rosparam command="load"  file="$(arg debug_yaml)" />
+
+  </node>
+
+</launch>
+

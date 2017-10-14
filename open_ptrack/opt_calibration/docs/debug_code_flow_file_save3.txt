@@ -1,0 +1,215 @@
+calibration_initializer.py -> __main__ : Begin 
+
+calibration_initializer.py -> __init__() : Begin 
+
+calibration_initializer.py -> __init__() : End 
+
+calibration_initializer.py -> createMaster() : Begin 
+
+calibration_initializer.py -> createMaster() : create opt_calibration_master.launch 
+
+calibration_initializer.py -> createMaster() : create opt_define_reference_frame.launch 
+
+calibration_initializer.py -> createMaster() : End 
+
+listener.py -> __main__ : Begin 
+
+listener.py -> __init__() : Begin 
+
+listener.py -> __init__() : End 
+
+listener.py -> handle_create_sensor_launch(request) : request.id = hc_101  Begin 
+
+listener.py -> handle_create_sensor_launch(request) : request.id = hc_101  End 
+
+calibration_initializer.py -> __invokeService(create_sensor_launch) : Begin 
+
+calibration_initializer.py -> __invokeService(create_sensor_launch) : End 
+
+calibration_initializer.py -> createSensorLaunch() : Begin 
+
+calibration_initializer.py -> createSensorLaunch() : End 
+
+listener.py -> handle_create_detector_launch(request) : request.id = hc_101  Begin 
+
+listener.py -> handle_create_detector_launch(request) : request.id = hc_101  End 
+
+calibration_initializer.py -> __invokeService(create_detector_launch) : Begin 
+
+calibration_initializer.py -> __invokeService(create_detector_launch) : End 
+
+calibration_initializer.py -> createDetectorLaunch() : Begin 
+
+calibration_initializer.py -> createDetectorLaunch() : End 
+
+listener.py -> __main__ : End 
+
+calibration_initializer.py -> __main__ : End 
+
+
+
+time ms: 49
+hc_bridge.cpp -> main() : Begin
+
+time ms: 50
+      hc_bridge.cpp : sensor_name = hc_101
+
+      hc_bridge.cpp : camera_ip = 192.168.200.201
+
+      hc_bridge.cpp : fx = 50
+
+      hc_bridge.cpp : fy = 51
+
+      hc_bridge.cpp : cx = 2
+
+      hc_bridge.cpp : cy = 3
+
+time ms: 50
+      hc_bridge.cpp : imagePub,  topic = /hc_101/image
+      hc_bridge.cpp : infoPub,   topic = /hc_101/camera_info
+
+time ms: 82
+      hc_bridge.cpp : starting receive image from camera driver...
+
+time ms: 84
+      hc_bridge.cpp : imagePub,  starting publish image...
+
+      hc_bridge.cpp : infoPub,   starting publish camera_info...
+
+
+
+time ms: 132
+opt_calibration_node.cpp -> main() : Begin
+
+
+time ms: 171
+opt_calibration_node.cpp -> OPTCalibrationNode::OPTCalibrationNode() : Begin
+
+   OPTCalibrationNode() : world_computation_s = last_checkerboard
+
+   OPTCalibrationNode() : num_sensors_ = 1
+
+time ms: 173
+   OPTCalibrationNode() : type_s = sensor_0/type = pinhole_rgb
+
+   OPTCalibrationNode() : frame_id = sensor_0/name = /hc_101
+
+time ms: 174
+   OPTCalibrationNode() : /hc_101 (PinholeRGBDevice) added. 
+
+time ms: 174
+   OPTCalibrationNode() : Call ros_device->createSubscribers()
+
+
+time ms: 180
+ros_device.cpp -> PinholeRGBDevice::createSubscribers() : Begin
+    image_sub_ :           topic = sensor_0/image
+    camera_info_sub_ :     topic = sensor_0/camera_info
+time ms: 182
+ros_device.cpp -> PinholeRGBDevice::createSubscribers() : End
+
+
+time ms: 182
+opt_calibration_node.cpp -> OPTCalibrationNode::OPTCalibrationNode() : End
+
+
+time ms: 182
+opt_calibration_node.cpp -> OPTCalibrationNode::initialize() : Begin
+
+time ms: 212
+ros_device.cpp -> PinholeRGBDevice starting received camera_info...
+ros_device.cpp -> PinholeRGBDevice::cameraInfoCallback() : Begin
+time ms: 212
+   Set PinholeRGBDevice's sensor_
+   Call setFrameId( /hc_101 )
+   Call setCameraModel()
+time ms: 212
+   Call setHasNewMessages(),  set has_new_messages_ = true
+ros_device.cpp -> PinholeRGBDevice::cameraInfoCallback() : End
+
+
+time ms: 213
+ros_device.cpp -> PinholeRGBDevice starting received image...
+ros_device.cpp -> PinholeRGBDevice::imageCallback() : Begin
+time ms: 213
+     Call setHasNewMessages(),  set has_new_messages_ = true
+ros_device.cpp -> PinholeRGBDevice::imageCallback() : End
+
+
+time ms: 247
+   OPTCalibrationNode::initialize() : All sensors connected.
+
+time ms: 249
+   calibration_->addSensor( PinholeRGBDevice ), frame_id =  /hc_101
+
+time ms: 250
+opt_calibration_node.cpp -> OPTCalibrationNode::initialize() : End
+
+
+time ms: 250
+opt_calibration_node.cpp -> OPTCalibrationNode::spin() : Begin
+
+time ms: 251
+   OPTCalibrationNode::spin() : Call nextAcquisition()
+
+time ms: 258
+   OPTCalibrationNode::spin() : Call device->convertLastMessages()
+
+time ms: 258
+ros_device.cpp -> PinholeRGBDevice::convertMessages() : Begin
+time ms: 260
+   convertMessages() : rectifyImage succeed
+time ms: 260
+ros_device.cpp -> PinholeRGBDevice::convertMessages() : End
+
+time ms: 260
+   OPTCalibrationNode::spin() : Call analyzeData()
+
+
+time ms: 728
+   OPTCalibrationNode::spin() : [/hc_101] checkerboard detect failed.....
+
+time ms: 728
+   OPTCalibrationNode::spin() : Call status_pub_.publish(status_msg_)
+
+time ms: 728
+   OPTCalibrationNode::spin() : Call calibration_->perform()
+
+time ms: 728
+   OPTCalibrationNode::spin() : Call calibration_->publish()
+
+time ms: 728
+   OPTCalibrationNode::spin() : detected 0 checherboards.
+
+
+time ms: 731
+   OPTCalibrationNode::spin() : Call nextAcquisition()
+
+time ms: 736
+   OPTCalibrationNode::spin() : Call device->convertLastMessages()
+
+time ms: 736
+ros_device.cpp -> PinholeRGBDevice::convertMessages() : Begin
+time ms: 738
+   convertMessages() : rectifyImage succeed
+time ms: 738
+ros_device.cpp -> PinholeRGBDevice::convertMessages() : End
+
+
+time ms: 739
+   OPTCalibrationNode::spin() : Call analyzeData()
+
+time ms: 1149
+   OPTCalibrationNode::spin() : [/hc_101] checkerboard detect failed.....
+
+time ms: 1149
+   OPTCalibrationNode::spin() : Call status_pub_.publish(status_msg_)
+
+time ms: 1149
+   OPTCalibrationNode::spin() : Call calibration_->perform()
+
+time ms: 1149
+   OPTCalibrationNode::spin() : Call calibration_->publish()
+
+time ms: 1149
+   OPTCalibrationNode::spin() : detected 0 checherboards.

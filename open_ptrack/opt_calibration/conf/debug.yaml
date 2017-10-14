@@ -1,0 +1,3 @@
+# set 'debug' to 1, then print the program's execution flow to file Code_flow.txt
+debug: 1 
+debug_code_flow_file: /home/test/workspace/ros/catkin/src/open_ptrack/opt_calibration/docs/debug_code_flow_file.txt

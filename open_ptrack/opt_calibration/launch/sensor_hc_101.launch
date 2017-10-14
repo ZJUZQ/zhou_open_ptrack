@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!-- SESSION ID: 1507985328 -->
+<launch>
+
+  <!-- Sensor parameters -->
+  <arg name="sensor_name"     default="hc_101" />
+  <arg name="camera_ip"   default="192.168.200.201" />
+
+  <!-- Launch sensor -->
+  <include file="$(find hc_bridge)/launch/hc_bridge.launch">
+    <arg name="sensor_name"         value="$(arg sensor_name)" />
+    <arg name="camera_ip"           value="$(arg camera_ip)" />
+    <arg name="publish_frame"       value="true" />
+    <arg name="debug_yaml"          value="$(find opt_calibration)/conf/debug.yaml" />
+  </include>
+
+  <!-- Publish a further transform -->
+  <node pkg="tf" type="static_transform_publisher" name="$(arg sensor_name)_broadcaster" args="0 0 0 1.57079 -1.57079 0 /$(arg sensor_name) /$(arg sensor_name)_link  100" />
+
+</launch>
