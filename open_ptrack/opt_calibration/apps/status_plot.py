@@ -47,20 +47,55 @@ import thread
 class CalibrationStatusPlotter :
 
   def __init__(self) :
+    self.debug = rospy.get_param('~debug')
+    self.debug_code_flow_file = rospy.get_param('~debug_code_flow_file')
+
+    debug_file = open(self.debug_code_flow_file, 'a')
+
+    if self.debug == 1 :
+      debug_file.write('ros time : ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
+      debug_file.write('status_plot.py -> CalibrationStatusPlotter::__init__() : Begin\n')
+      debug_file.write('    CalibrationStatusPlotter::__init__() : Call rospy.Subscriber(), topic = ~calibration_status\n\n')
+
     rospy.Subscriber("~calibration_status", CalibrationStatus, self.callback)
     self.initialized = False
     self.has_mgs = False
     self.lock = thread.allocate_lock()
+
+    if self.debug == 1 :
+      debug_file.write('ros time : ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
+      debug_file.write('status_plot.py -> CalibrationStatusPlotter::__init__() : End\n')
+
+    debug_file.close()
   #####################
     
   def callback(self, msg) :
+    debug_file = open(self.debug_code_flow_file, 'a')
+
+    if self.debug == 1:
+      debug_file.write('ros time : ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
+      debug_file.write('status_plot.py -> CalibrationStatusPlotter::callback() : Begin\n')
+
     self.lock.acquire()
     self.msg = msg
     self.has_mgs = True
     self.lock.release()
+
+    if self.debug == 1:
+      debug_file.write('ros time : ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
+      debug_file.write('status_plot.py -> CalibrationStatusPlotter::callback() : End\n')
+
+    debug_file.close()
   #####################
     
   def spinOnce(self) :
+    debug_file = open(self.debug_code_flow_file, 'a')
+
+    if self.debug == 1:
+      debug_file.write('ros time : ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
+      debug_file.write('status_plot.py -> CalibrationStatusPlotter::spinOnce() : Begin\n')
+
+
     self.lock.acquire()
     if not self.initialized :
       y = numpy.arange(len(self.msg.sensor_ids))
@@ -101,17 +136,64 @@ class CalibrationStatusPlotter :
     self.lock.release()
     
     plot.draw()
+
+    if self.debug == 1:
+      debug_file.write('ros time : ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
+      debug_file.write('status_plot.py -> CalibrationStatusPlotter::spinOnce() : End\n')
+
+    debug_file.close()
   #####################
 
   def spin(self) :
+    debug_file = open(self.debug_code_flow_file, 'a')
+
+    if self.debug == 1:
+      debug_file.write('ros time : ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
+      debug_file.write('status_plot.py -> CalibrationStatusPlotter::spin() : Begin\n')
+
     rate = rospy.Rate(10)
     while not rospy.is_shutdown() :
       if self.has_mgs :
+        if self.debug == 1:
+          debug_file.write('ros time : ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
+          debug_file.write('    CalibrationStatusPlotter::spin() : Call self.spinOnce()\n')
         self.spinOnce()
       rate.sleep()
+
+    if self.debug == 1:
+      debug_file.write('ros time : ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
+      debug_file.write('status_plot.py -> CalibrationStatusPlotter::spin() : End\n')
+
+    debug_file.close()
   #####################
            
 if __name__ == '__main__' :
   rospy.init_node('opt_calibration_status_plot')
+
+  debug = rospy.get_param('~debug')
+  debug_code_flow_file = rospy.get_param('~debug_code_flow_file')
+
+  debug_file = open(debug_code_flow_file, 'a')
+
+  if debug == 1:
+    debug_file.write('ros time : ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
+    debug_file.write('status_plot.py -> __main__() : Begin()\n\n')
+
+  if debug == 1:
+    debug_file.write('ros time : ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
+    debug_file.write('status_plot.py -> __main__() : Call CalibrationStatusPlotter()\n\n')
+
   plotter = CalibrationStatusPlotter()
+
+  if debug == 1:
+    debug_file.write('ros time : ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
+    debug_file.write('status_plot.py -> __main__() : Call spin()\n\n')
+
   plotter.spin()
+
+  if debug == 1:
+    debug_file.write('ros time : ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
+    debug_file.write('status_plot.py -> __main__() : End()\n\n')
+
+  debug_file.close()
+

@@ -1,0 +1,1270 @@
+ros time: 1508054332 (s) : 917684078
+calibration_initializer.py -> __main__ : Begin 
+
+ros time: 1508054332 (s) : 920105934
+calibration_initializer.py -> __init__() : Begin 
+
+ros time: 1508054332 (s) : 924752950
+calibration_initializer.py -> __init__() : End 
+
+ros time: 1508054332 (s) : 924840927
+calibration_initializer.py -> createMaster() : Begin 
+calibration_initializer.py -> createMaster() : create opt_calibration_master.launch 
+
+ros time: 1508054332 (s) : 925008058
+calibration_initializer.py -> createMaster() : create opt_define_reference_frame.launch 
+
+ros time: 1508054332 (s) : 925113916
+calibration_initializer.py -> createMaster() : End 
+
+ros time: 1508054338 (s) : 608186960
+listener.py -> __main__ : Begin 
+
+ros time: 1508054338 (s) : 610280990
+listener.py -> __init__() : Begin 
+
+ros time: 1508054338 (s) : 613468885
+  listener.py -> __init__() : Call rospy.Service("create_sensor_launch") 
+
+ros time: 1508054338 (s) : 614945888
+  listener.py -> __init__() : Call rospy.Service("create_detector_launch") 
+
+ros time: 1508054338 (s) : 616345882
+  listener.py -> __init__() : Call rospy.Service("create_camera_poses") 
+
+ros time: 1508054338 (s) : 617772102
+listener.py -> __init__() : End 
+
+ros time: 1508054338 (s) : 670542955
+listener.py -> handle_create_sensor_launch(request) : request.id = dh_103  Begin 
+
+ros time: 1508054338 (s) : 670936107
+listener.py -> handle_create_sensor_launch(request) : request.id = dh_103  End 
+
+ros time: 1508054332 (s) : 925615072
+calibration_initializer.py -> __invokeService(create_sensor_launch) : Begin 
+
+ros time: 1508054338 (s) : 671531915
+calibration_initializer.py -> __invokeService(create_sensor_launch) : End 
+
+ros time: 1508054332 (s) : 925595998
+calibration_initializer.py -> createSensorLaunch() : Begin 
+
+ros time: 1508054338 (s) : 671581029
+calibration_initializer.py -> createSensorLaunch() : End 
+
+ros time: 1508054338 (s) : 674840927
+listener.py -> handle_create_detector_launch(request) : request.id = dh_103  Begin 
+
+ros time: 1508054338 (s) : 675689935
+listener.py -> handle_create_detector_launch(request) : request.id = dh_103  End 
+
+ros time: 1508054338 (s) : 671653032
+calibration_initializer.py -> __invokeService(create_detector_launch) : Begin 
+
+ros time: 1508054338 (s) : 676275014
+calibration_initializer.py -> __invokeService(create_detector_launch) : End 
+
+ros time: 1508054338 (s) : 671633005
+calibration_initializer.py -> createDetectorLaunch() : Begin 
+
+ros time: 1508054338 (s) : 676381111
+calibration_initializer.py -> createDetectorLaunch() : End 
+
+ros time: 1508054341 (s) : 576478004
+listener.py -> __main__ : End 
+
+ros time: 1508054347 (s) : 683991909
+calibration_initializer.py -> __main__ : End 
+
+ros time: 1.50805e+09 (s) : 1508054351841297804
+opt_calibration_node.cpp -> main() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054352007067285
+ros_device.cpp -> PinholeRGBDevice::createSubscribers() : Begin
+    image_sub_ :  topic = sensor_0/image
+    camera_info_sub_ : topic = sensor_0/camera_info
+ros time: 1.50805e+09 (s) : 1508054352011308710
+ros_device.cpp -> PinholeRGBDevice::createSubscribers() : End
+
+ros time: 1.50805e+09 (s) : 1508054351912199516
+opt_calibration_node.cpp -> OPTCalibrationNode::OPTCalibrationNode() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054351912217656
+   OPTCalibrationNode() : Create action_sub_, topic = action 
+
+ros time: 1.50805e+09 (s) : 1508054351920404133
+   OPTCalibrationNode() : Create status_pub_, topic = status
+
+ros time: 1.50805e+09 (s) : 1508054351923990923
+   OPTCalibrationNode() : world_computation_s = last_checkerboard
+
+ros time: 1.50805e+09 (s) : 1508054351925928483
+   OPTCalibrationNode() : num_sensors_ = 1
+
+ros time: 1.50805e+09 (s) : 1508054351929675509
+   OPTCalibrationNode() : set checkerboard_ frame_id = /checkerboard
+
+ros time: 1.50805e+09 (s) : 1508054351930595408
+   OPTCalibrationNode() : sensor_0   type_s = sensor_0/type = pinhole_rgb
+
+ros time: 1.50805e+09 (s) : 1508054351932370430
+   OPTCalibrationNode() : sensor_0  frame_id = sensor_0/name = /dh_103
+
+ros time: 1.50805e+09 (s) : 1508054351932942400
+   OPTCalibrationNode() : /dh_103 (PinholeRGBDevice) added. 
+
+ros time: 1.50805e+09 (s) : 1508054351932991070
+   OPTCalibrationNode() : Call ros_device->createSubscribers()
+
+ros time: 1.50805e+09 (s) : 1508054352011379142
+opt_calibration_node.cpp -> OPTCalibrationNode::OPTCalibrationNode() : End
+
+ros time : 1508054352 (s) : 605348110
+status_plot.py -> CalibrationStatusPlotter::__init__() : Begin
+    CalibrationStatusPlotter::__init__() : Call rospy.Subscriber(), topic = ~calibration_status
+
+ros time : 1508054352 (s) : 608511924
+status_plot.py -> CalibrationStatusPlotter::__init__() : End
+ros time: 1.50805e+09 (s) : 1508054359007695080
+dh_bridge.cpp -> main() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054359022723778
+		dh_bridge.cpp : sensor_name = dh_103
+
+		dh_bridge.cpp : camera_ip = 192.168.200.203
+
+		dh_bridge.cpp : fx = 50
+
+		dh_bridge.cpp : fy = 51
+
+		dh_bridge.cpp : cx = 2
+
+		dh_bridge.cpp : cy = 3
+
+ros time: 1.50805e+09 (s) : 1508054359029353456
+		dh_bridge.cpp : imagePub, topic = /dh_103/image
+
+		dh_bridge.cpp : infoPub, topic = /dh_103/camera_info
+
+ros time: 1.50805e+09 (s) : 1508054359551535033
+		dh_bridge.cpp : starting receive image from camera driver...
+
+ros time: 1.50805e+09 (s) : 1508054359552437392
+		dh_bridge.cpp : imagePub, 	starting publish image...
+
+		dh_bridge.cpp : infoPub, 	starting publish camera_info...
+
+ros time: 1.50805e+09 (s) : 1508054360011728024
+ros_device.cpp -> PinholeRGBDevice starting received camera_info...
+ros_device.cpp -> PinholeRGBDevice::cameraInfoCallback() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054360011850158
+   Set PinholeRGBDevice's sensor_
+   Call setFrameId( /dh_103 )
+   Call setCameraModel()
+
+ros time: 1.50805e+09 (s) : 1508054360011853934
+   Call setHasNewMessages(),  set has_new_messages_ = true
+ros_device.cpp -> PinholeRGBDevice::cameraInfoCallback() : End
+
+ros time: 1.50805e+09 (s) : 1508054360013233112
+ros_device.cpp -> PinholeRGBDevice starting received image...
+ros_device.cpp -> PinholeRGBDevice::imageCallback() : Begin
+ros time: 1.50805e+09 (s) : 1508054360013262252
+     Call setHasNewMessages(),  set has_new_messages_ = true
+ros_device.cpp -> PinholeRGBDevice::imageCallback() : End
+
+ros time: 1.50805e+09 (s) : 1508054361018356991
+opt_calibration.cpp -> OPTCalibration::OPTCalibration() : Begin
+   OPTCalibration() : Create marker_pub_, topic = markers
+
+ros time: 1.50805e+09 (s) : 1508054361019613673
+opt_calibration.cpp -> OPTCalibration::OPTCalibration() : End
+
+ros time: 1.50805e+09 (s) : 1508054361019698129
+opt_calibration.cpp -> OPTCalibration::addSensor() : Begin
+   addSensor() : Create new TreeNode::Ptr node, node_type = INTENSITY
+
+ros time: 1.50805e+09 (s) : 1508054361019707958
+   addSensor() : Call node->setEstimatePose()
+
+ros time: 1.50805e+09 (s) : 1508054361019710648
+opt_calibration.cpp -> OPTCalibration::addSensor() : End
+ros time: 1.50805e+09 (s) : 1508054352011433029
+opt_calibration_node.cpp -> OPTCalibrationNode::initialize() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054361011535600
+   OPTCalibrationNode::initialize() : All sensors connected.
+
+ros time: 1.50805e+09 (s) : 1508054361019659199
+   OPTCalibrationNode::initialize() : Call calibration_->setCheckerboard(checkerboard_)
+
+ros time: 1.50805e+09 (s) : 1508054361019663143
+   OPTCalibrationNode::initialize() : Call  calibration_->addSensor(PinholeRGBDevice) /dh_103
+
+ros time: 1.50805e+09 (s) : 1508054361019755463
+opt_calibration_node.cpp -> OPTCalibrationNode::initialize() : End
+
+ros time : 1508054361 (s) : 21775960
+status_plot.py -> CalibrationStatusPlotter::callback() : Begin
+ros time : 1508054361 (s) : 21820068
+status_plot.py -> CalibrationStatusPlotter::callback() : End
+ros time: 1.50805e+09 (s) : 1508054361023674910
+ros_device.cpp -> PinholeRGBDevice::convertMessages() : Begin
+ros time: 1.50805e+09 (s) : 1508054361028132233
+   convertMessages() : rectifyImage succeed
+ros time: 1.50805e+09 (s) : 1508054361028149328
+ros_device.cpp -> PinholeRGBDevice::convertMessages() : End
+
+ros time : 1508054361 (s) : 109433889
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : Begin
+ros time : 1508054361 (s) : 597116947
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : End
+ros time: 1.50805e+09 (s) : 1508054361028271017
+opt_calibration.cpp -> OPTCalibration::analyzeData() : Begin
+   analyzeData() : Create OPTCheckerboardExtraction
+
+ros time: 1.50805e+09 (s) : 1508054361028275009
+   analyzeData() : Set OPTCheckerboardExtraction's  Image, ColorSensor, CheckerBoard
+
+ros time: 1.50805e+09 (s) : 1508054361028301623
+   analyzeData() : Call OPTCheckerboardExtraction::perform()
+
+ros time: 1.50805e+09 (s) : 1508054361734387887
+   analyzeData() : Extracted checkerboard failed...
+opt_calibration.cpp -> OPTCalibration::analyzeData() : End
+ros time: 1.50805e+09 (s) : 1508054361734548469
+opt_calibration.cpp -> OPTCalibration::perform() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054361734551659
+   OPTCalibration::perform() : initialization_ == true
+
+ros time: 1.50805e+09 (s) : 1508054361734554498
+opt_calibration.cpp -> OPTCalibration::perform() : End
+
+ros time: 1.50805e+09 (s) : 1508054361734581149
+opt_calibration.cpp -> OPTCalibration::publish() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054361734586102
+opt_calibration.cpp -> OPTCalibration::publish() : End
+
+ros time : 1508054361 (s) : 734914064
+status_plot.py -> CalibrationStatusPlotter::callback() : Begin
+ros time : 1508054361 (s) : 734944105
+status_plot.py -> CalibrationStatusPlotter::callback() : End
+ros time: 1.50805e+09 (s) : 1508054361735061194
+ros_device.cpp -> PinholeRGBDevice::convertMessages() : Begin
+ros time: 1.50805e+09 (s) : 1508054361735392546
+   convertMessages() : rectifyImage succeed
+ros time: 1.50805e+09 (s) : 1508054361735401389
+ros_device.cpp -> PinholeRGBDevice::convertMessages() : End
+
+ros time : 1508054361 (s) : 798551082
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : Begin
+ros time : 1508054361 (s) : 835586071
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : End
+ros time: 1.50805e+09 (s) : 1508054361735451592
+opt_calibration.cpp -> OPTCalibration::analyzeData() : Begin
+   analyzeData() : Create OPTCheckerboardExtraction
+
+ros time: 1.50805e+09 (s) : 1508054361735454597
+   analyzeData() : Set OPTCheckerboardExtraction's  Image, ColorSensor, CheckerBoard
+
+ros time: 1.50805e+09 (s) : 1508054361735463440
+   analyzeData() : Call OPTCheckerboardExtraction::perform()
+
+ros time: 1.50805e+09 (s) : 1508054362349023077
+   analyzeData() : Extracted checkerboard failed...
+opt_calibration.cpp -> OPTCalibration::analyzeData() : End
+ros time: 1.50805e+09 (s) : 1508054362349308972
+opt_calibration.cpp -> OPTCalibration::perform() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054362349312183
+   OPTCalibration::perform() : initialization_ == true
+
+ros time: 1.50805e+09 (s) : 1508054362349314986
+opt_calibration.cpp -> OPTCalibration::perform() : End
+
+ros time: 1.50805e+09 (s) : 1508054362349339573
+opt_calibration.cpp -> OPTCalibration::publish() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054362349343478
+opt_calibration.cpp -> OPTCalibration::publish() : End
+
+ros time : 1508054362 (s) : 350058078
+status_plot.py -> CalibrationStatusPlotter::callback() : Begin
+ros time : 1508054362 (s) : 350090026
+status_plot.py -> CalibrationStatusPlotter::callback() : End
+ros time: 1.50805e+09 (s) : 1508054362355939879
+ros_device.cpp -> PinholeRGBDevice::convertMessages() : Begin
+ros time: 1.50805e+09 (s) : 1508054362358872816
+   convertMessages() : rectifyImage succeed
+ros time: 1.50805e+09 (s) : 1508054362358954363
+ros_device.cpp -> PinholeRGBDevice::convertMessages() : End
+
+ros time : 1508054362 (s) : 397761106
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : Begin
+ros time : 1508054362 (s) : 438182115
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : End
+ros time: 1.50805e+09 (s) : 1508054362359356938
+opt_calibration.cpp -> OPTCalibration::analyzeData() : Begin
+   analyzeData() : Create OPTCheckerboardExtraction
+
+ros time: 1.50805e+09 (s) : 1508054362359369958
+   analyzeData() : Set OPTCheckerboardExtraction's  Image, ColorSensor, CheckerBoard
+
+ros time: 1.50805e+09 (s) : 1508054362359435206
+   analyzeData() : Call OPTCheckerboardExtraction::perform()
+
+ros time: 1.50805e+09 (s) : 1508054362971707828
+   analyzeData() : Extracted checkerboard failed...
+opt_calibration.cpp -> OPTCalibration::analyzeData() : End
+ros time: 1.50805e+09 (s) : 1508054362974581121
+opt_calibration.cpp -> OPTCalibration::perform() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054362974585139
+   OPTCalibration::perform() : initialization_ == true
+
+ros time: 1.50805e+09 (s) : 1508054362974588052
+opt_calibration.cpp -> OPTCalibration::perform() : End
+
+ros time: 1.50805e+09 (s) : 1508054362974638023
+opt_calibration.cpp -> OPTCalibration::publish() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054362974641959
+opt_calibration.cpp -> OPTCalibration::publish() : End
+
+ros time : 1508054362 (s) : 975177049
+status_plot.py -> CalibrationStatusPlotter::callback() : Begin
+ros time : 1508054362 (s) : 975277900
+status_plot.py -> CalibrationStatusPlotter::callback() : End
+ros time: 1.50805e+09 (s) : 1508054362978298242
+ros_device.cpp -> PinholeRGBDevice::convertMessages() : Begin
+ros time: 1.50805e+09 (s) : 1508054362979888200
+   convertMessages() : rectifyImage succeed
+ros time: 1.50805e+09 (s) : 1508054362979900219
+ros_device.cpp -> PinholeRGBDevice::convertMessages() : End
+
+ros time : 1508054362 (s) : 998352050
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : Begin
+ros time : 1508054363 (s) : 44039011
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : End
+ros time: 1.50805e+09 (s) : 1508054362980179333
+opt_calibration.cpp -> OPTCalibration::analyzeData() : Begin
+   analyzeData() : Create OPTCheckerboardExtraction
+
+ros time: 1.50805e+09 (s) : 1508054362980182882
+   analyzeData() : Set OPTCheckerboardExtraction's  Image, ColorSensor, CheckerBoard
+
+ros time: 1.50805e+09 (s) : 1508054362980201152
+   analyzeData() : Call OPTCheckerboardExtraction::perform()
+
+ros time: 1.50805e+09 (s) : 1508054363565651009
+   analyzeData() : Extracted checkerboard failed...
+opt_calibration.cpp -> OPTCalibration::analyzeData() : End
+ros time: 1.50805e+09 (s) : 1508054363566580094
+opt_calibration.cpp -> OPTCalibration::perform() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054363566583157
+   OPTCalibration::perform() : initialization_ == true
+
+ros time: 1.50805e+09 (s) : 1508054363566586028
+opt_calibration.cpp -> OPTCalibration::perform() : End
+
+ros time : 1508054363 (s) : 566770076
+status_plot.py -> CalibrationStatusPlotter::callback() : Begin
+ros time : 1508054363 (s) : 566797018
+status_plot.py -> CalibrationStatusPlotter::callback() : End
+ros time : 1508054363 (s) : 597853899
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : Begin
+ros time : 1508054363 (s) : 628146886
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : End
+ros time: 1.50805e+09 (s) : 1508054363739913851
+opt_calibration.cpp -> OPTCalibration::publish() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054363739922138
+opt_calibration.cpp -> OPTCalibration::publish() : End
+
+ros time: 1.50805e+09 (s) : 1508054363740547067
+ros_device.cpp -> PinholeRGBDevice::convertMessages() : Begin
+ros time: 1.50805e+09 (s) : 1508054363741604175
+   convertMessages() : rectifyImage succeed
+ros time: 1.50805e+09 (s) : 1508054363741613114
+ros_device.cpp -> PinholeRGBDevice::convertMessages() : End
+
+ros time: 1.50805e+09 (s) : 1508054363741672495
+opt_calibration.cpp -> OPTCalibration::analyzeData() : Begin
+   analyzeData() : Create OPTCheckerboardExtraction
+
+ros time: 1.50805e+09 (s) : 1508054363741675462
+   analyzeData() : Set OPTCheckerboardExtraction's  Image, ColorSensor, CheckerBoard
+
+ros time: 1.50805e+09 (s) : 1508054363741687174
+   analyzeData() : Call OPTCheckerboardExtraction::perform()
+
+ros time: 1.50805e+09 (s) : 1508054364332285302
+   analyzeData() : Extracted checkerboard failed...
+opt_calibration.cpp -> OPTCalibration::analyzeData() : End
+ros time: 1.50805e+09 (s) : 1508054364332416885
+opt_calibration.cpp -> OPTCalibration::perform() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054364332420472
+   OPTCalibration::perform() : initialization_ == true
+
+ros time: 1.50805e+09 (s) : 1508054364332423843
+opt_calibration.cpp -> OPTCalibration::perform() : End
+
+ros time: 1.50805e+09 (s) : 1508054364332450073
+opt_calibration.cpp -> OPTCalibration::publish() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054364332454087
+opt_calibration.cpp -> OPTCalibration::publish() : End
+
+ros time: 1.50805e+09 (s) : 1508054364332848879
+ros_device.cpp -> PinholeRGBDevice::convertMessages() : Begin
+ros time: 1.50805e+09 (s) : 1508054364333171154
+   convertMessages() : rectifyImage succeed
+ros time: 1.50805e+09 (s) : 1508054364333177534
+ros_device.cpp -> PinholeRGBDevice::convertMessages() : End
+
+ros time : 1508054364 (s) : 335845947
+status_plot.py -> CalibrationStatusPlotter::callback() : Begin
+ros time : 1508054364 (s) : 335882902
+status_plot.py -> CalibrationStatusPlotter::callback() : End
+ros time : 1508054364 (s) : 397792100
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : Begin
+ros time : 1508054364 (s) : 434145927
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : End
+ros time: 1.50805e+09 (s) : 1508054364333389932
+opt_calibration.cpp -> OPTCalibration::analyzeData() : Begin
+   analyzeData() : Create OPTCheckerboardExtraction
+
+ros time: 1.50805e+09 (s) : 1508054364333393342
+   analyzeData() : Set OPTCheckerboardExtraction's  Image, ColorSensor, CheckerBoard
+
+ros time: 1.50805e+09 (s) : 1508054364333403313
+   analyzeData() : Call OPTCheckerboardExtraction::perform()
+
+ros time: 1.50805e+09 (s) : 1508054364902766223
+   analyzeData() : Extracted checkerboard failed...
+opt_calibration.cpp -> OPTCalibration::analyzeData() : End
+ros time: 1.50805e+09 (s) : 1508054364902883844
+opt_calibration.cpp -> OPTCalibration::perform() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054364902886950
+   OPTCalibration::perform() : initialization_ == true
+
+ros time: 1.50805e+09 (s) : 1508054364902889783
+opt_calibration.cpp -> OPTCalibration::perform() : End
+
+ros time: 1.50805e+09 (s) : 1508054364902913453
+opt_calibration.cpp -> OPTCalibration::publish() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054364902916842
+opt_calibration.cpp -> OPTCalibration::publish() : End
+
+ros time: 1.50805e+09 (s) : 1508054364903283426
+ros_device.cpp -> PinholeRGBDevice::convertMessages() : Begin
+ros time: 1.50805e+09 (s) : 1508054364904046228
+   convertMessages() : rectifyImage succeed
+ros time: 1.50805e+09 (s) : 1508054364904056731
+ros_device.cpp -> PinholeRGBDevice::convertMessages() : End
+
+ros time : 1508054364 (s) : 906472921
+status_plot.py -> CalibrationStatusPlotter::callback() : Begin
+ros time : 1508054364 (s) : 906507968
+status_plot.py -> CalibrationStatusPlotter::callback() : End
+ros time : 1508054364 (s) : 997788906
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : Begin
+ros time : 1508054365 (s) : 36148071
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : End
+ros time: 1.50805e+09 (s) : 1508054364904118635
+opt_calibration.cpp -> OPTCalibration::analyzeData() : Begin
+   analyzeData() : Create OPTCheckerboardExtraction
+
+ros time: 1.50805e+09 (s) : 1508054364904122319
+   analyzeData() : Set OPTCheckerboardExtraction's  Image, ColorSensor, CheckerBoard
+
+ros time: 1.50805e+09 (s) : 1508054364904132422
+   analyzeData() : Call OPTCheckerboardExtraction::perform()
+
+ros time: 1.50805e+09 (s) : 1508054365472432582
+   analyzeData() : Extracted checkerboard failed...
+opt_calibration.cpp -> OPTCalibration::analyzeData() : End
+ros time: 1.50805e+09 (s) : 1508054365472583747
+opt_calibration.cpp -> OPTCalibration::perform() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054365472587376
+   OPTCalibration::perform() : initialization_ == true
+
+ros time: 1.50805e+09 (s) : 1508054365472590228
+opt_calibration.cpp -> OPTCalibration::perform() : End
+
+ros time: 1.50805e+09 (s) : 1508054365472616030
+opt_calibration.cpp -> OPTCalibration::publish() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054365472619686
+opt_calibration.cpp -> OPTCalibration::publish() : End
+
+ros time: 1.50805e+09 (s) : 1508054365472707037
+opt_calibration.cpp -> OPTCalibration::perform() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054365472709641
+   OPTCalibration::perform() : initialization_ == true
+
+ros time: 1.50805e+09 (s) : 1508054365472711876
+opt_calibration.cpp -> OPTCalibration::perform() : End
+
+ros time: 1.50805e+09 (s) : 1508054365472734689
+opt_calibration.cpp -> OPTCalibration::publish() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054365472737323
+opt_calibration.cpp -> OPTCalibration::publish() : End
+
+ros time : 1508054365 (s) : 476982116
+status_plot.py -> CalibrationStatusPlotter::callback() : Begin
+ros time : 1508054365 (s) : 477091073
+status_plot.py -> CalibrationStatusPlotter::callback() : End
+ros time : 1508054365 (s) : 477488040
+status_plot.py -> CalibrationStatusPlotter::callback() : Begin
+ros time : 1508054365 (s) : 477541923
+status_plot.py -> CalibrationStatusPlotter::callback() : End
+ros time : 1508054365 (s) : 497764110
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : Begin
+ros time : 1508054365 (s) : 531064987
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : End
+ros time: 1.50805e+09 (s) : 1508054365675548734
+opt_calibration.cpp -> OPTCalibration::perform() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054365675553943
+   OPTCalibration::perform() : initialization_ == true
+
+ros time: 1.50805e+09 (s) : 1508054365675556840
+opt_calibration.cpp -> OPTCalibration::perform() : End
+
+ros time: 1.50805e+09 (s) : 1508054365675624867
+opt_calibration.cpp -> OPTCalibration::publish() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054365675629970
+opt_calibration.cpp -> OPTCalibration::publish() : End
+
+ros time : 1508054365 (s) : 675751924
+status_plot.py -> CalibrationStatusPlotter::callback() : Begin
+ros time : 1508054365 (s) : 675780057
+status_plot.py -> CalibrationStatusPlotter::callback() : End
+ros time : 1508054365 (s) : 697783946
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : Begin
+ros time : 1508054365 (s) : 730086088
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : End
+ros time: 1.50805e+09 (s) : 1508054365873368711
+opt_calibration.cpp -> OPTCalibration::perform() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054365873373290
+   OPTCalibration::perform() : initialization_ == true
+
+ros time: 1.50805e+09 (s) : 1508054365873375924
+opt_calibration.cpp -> OPTCalibration::perform() : End
+
+ros time: 1.50805e+09 (s) : 1508054365873425253
+opt_calibration.cpp -> OPTCalibration::publish() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054365873429630
+opt_calibration.cpp -> OPTCalibration::publish() : End
+
+ros time : 1508054365 (s) : 875952959
+status_plot.py -> CalibrationStatusPlotter::callback() : Begin
+ros time : 1508054365 (s) : 875998973
+status_plot.py -> CalibrationStatusPlotter::callback() : End
+ros time : 1508054365 (s) : 897785902
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : Begin
+ros time : 1508054365 (s) : 924310922
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : End
+ros time: 1.50805e+09 (s) : 1508054361019782733
+opt_calibration_node.cpp -> OPTCalibrationNode::spin() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054361020482715
+   OPTCalibrationNode::spin() : Call nextAcquisition()
+
+ros time: 1.50805e+09 (s) : 1508054361023575311
+   OPTCalibrationNode::spin() : Call device->convertLastMessages()
+
+ros time: 1.50805e+09 (s) : 1508054361028232124
+   OPTCalibrationNode::spin() : Call analyzeData()
+
+ros time: 1.50805e+09 (s) : 1508054361734470217
+   OPTCalibrationNode::spin() : [/dh_103] checkerboard detect failed.....
+
+ros time: 1.50805e+09 (s) : 1508054361734498730
+   OPTCalibrationNode::spin() : Call status_pub_.publish(status_msg_)
+
+ros time: 1.50805e+09 (s) : 1508054361734514339
+   OPTCalibrationNode::spin() : Call calibration_->perform()
+
+ros time: 1.50805e+09 (s) : 1508054361734570269
+   OPTCalibrationNode::spin() : Call calibration_->publish()
+
+ros time: 1.50805e+09 (s) : 1508054361734595114
+   OPTCalibrationNode::spin() : detected 0 checherboards.
+
+ros time: 1.50805e+09 (s) : 1508054361735016008
+   OPTCalibrationNode::spin() : Call nextAcquisition()
+
+ros time: 1.50805e+09 (s) : 1508054361735029697
+   OPTCalibrationNode::spin() : Call device->convertLastMessages()
+
+ros time: 1.50805e+09 (s) : 1508054361735431502
+   OPTCalibrationNode::spin() : Call analyzeData()
+
+ros time: 1.50805e+09 (s) : 1508054362349191874
+   OPTCalibrationNode::spin() : [/dh_103] checkerboard detect failed.....
+
+ros time: 1.50805e+09 (s) : 1508054362349221973
+   OPTCalibrationNode::spin() : Call status_pub_.publish(status_msg_)
+
+ros time: 1.50805e+09 (s) : 1508054362349268331
+   OPTCalibrationNode::spin() : Call calibration_->perform()
+
+ros time: 1.50805e+09 (s) : 1508054362349328876
+   OPTCalibrationNode::spin() : Call calibration_->publish()
+
+ros time: 1.50805e+09 (s) : 1508054362349351805
+   OPTCalibrationNode::spin() : detected 0 checherboards.
+
+ros time: 1.50805e+09 (s) : 1508054362349818051
+   OPTCalibrationNode::spin() : Call nextAcquisition()
+
+ros time: 1.50805e+09 (s) : 1508054362355749269
+   OPTCalibrationNode::spin() : Call device->convertLastMessages()
+
+ros time: 1.50805e+09 (s) : 1508054362359200530
+   OPTCalibrationNode::spin() : Call analyzeData()
+
+ros time: 1.50805e+09 (s) : 1508054362971967630
+   OPTCalibrationNode::spin() : [/dh_103] checkerboard detect failed.....
+
+ros time: 1.50805e+09 (s) : 1508054362974505054
+   OPTCalibrationNode::spin() : Call status_pub_.publish(status_msg_)
+
+ros time: 1.50805e+09 (s) : 1508054362974533533
+   OPTCalibrationNode::spin() : Call calibration_->perform()
+
+ros time: 1.50805e+09 (s) : 1508054362974625448
+   OPTCalibrationNode::spin() : Call calibration_->publish()
+
+ros time: 1.50805e+09 (s) : 1508054362974652150
+   OPTCalibrationNode::spin() : detected 0 checherboards.
+
+ros time: 1.50805e+09 (s) : 1508054362975364800
+   OPTCalibrationNode::spin() : Call nextAcquisition()
+
+ros time: 1.50805e+09 (s) : 1508054362978082307
+   OPTCalibrationNode::spin() : Call device->convertLastMessages()
+
+ros time: 1.50805e+09 (s) : 1508054362980146926
+   OPTCalibrationNode::spin() : Call analyzeData()
+
+ros time: 1.50805e+09 (s) : 1508054363565725499
+   OPTCalibrationNode::spin() : [/dh_103] checkerboard detect failed.....
+
+ros time: 1.50805e+09 (s) : 1508054363566519552
+   OPTCalibrationNode::spin() : Call status_pub_.publish(status_msg_)
+
+ros time: 1.50805e+09 (s) : 1508054363566542386
+   OPTCalibrationNode::spin() : Call calibration_->perform()
+
+ros time: 1.50805e+09 (s) : 1508054363739845116
+   OPTCalibrationNode::spin() : Call calibration_->publish()
+
+ros time: 1.50805e+09 (s) : 1508054363739942481
+   OPTCalibrationNode::spin() : detected 0 checherboards.
+
+ros time: 1.50805e+09 (s) : 1508054363740478506
+   OPTCalibrationNode::spin() : Call nextAcquisition()
+
+ros time: 1.50805e+09 (s) : 1508054363740500998
+   OPTCalibrationNode::spin() : Call device->convertLastMessages()
+
+ros time: 1.50805e+09 (s) : 1508054363741649804
+   OPTCalibrationNode::spin() : Call analyzeData()
+
+ros time: 1.50805e+09 (s) : 1508054364332350922
+   OPTCalibrationNode::spin() : [/dh_103] checkerboard detect failed.....
+
+ros time: 1.50805e+09 (s) : 1508054364332364348
+   OPTCalibrationNode::spin() : Call status_pub_.publish(status_msg_)
+
+ros time: 1.50805e+09 (s) : 1508054364332381783
+   OPTCalibrationNode::spin() : Call calibration_->perform()
+
+ros time: 1.50805e+09 (s) : 1508054364332438078
+   OPTCalibrationNode::spin() : Call calibration_->publish()
+
+ros time: 1.50805e+09 (s) : 1508054364332474946
+   OPTCalibrationNode::spin() : detected 0 checherboards.
+
+ros time: 1.50805e+09 (s) : 1508054364332807608
+   OPTCalibrationNode::spin() : Call nextAcquisition()
+
+ros time: 1.50805e+09 (s) : 1508054364332817868
+   OPTCalibrationNode::spin() : Call device->convertLastMessages()
+
+ros time: 1.50805e+09 (s) : 1508054364333366733
+   OPTCalibrationNode::spin() : Call analyzeData()
+
+ros time: 1.50805e+09 (s) : 1508054364902818815
+   OPTCalibrationNode::spin() : [/dh_103] checkerboard detect failed.....
+
+ros time: 1.50805e+09 (s) : 1508054364902834352
+   OPTCalibrationNode::spin() : Call status_pub_.publish(status_msg_)
+
+ros time: 1.50805e+09 (s) : 1508054364902849591
+   OPTCalibrationNode::spin() : Call calibration_->perform()
+
+ros time: 1.50805e+09 (s) : 1508054364902902984
+   OPTCalibrationNode::spin() : Call calibration_->publish()
+
+ros time: 1.50805e+09 (s) : 1508054364902925012
+   OPTCalibrationNode::spin() : detected 0 checherboards.
+
+ros time: 1.50805e+09 (s) : 1508054364903245244
+   OPTCalibrationNode::spin() : Call nextAcquisition()
+
+ros time: 1.50805e+09 (s) : 1508054364903256059
+   OPTCalibrationNode::spin() : Call device->convertLastMessages()
+
+ros time: 1.50805e+09 (s) : 1508054364904094983
+   OPTCalibrationNode::spin() : Call analyzeData()
+
+ros time: 1.50805e+09 (s) : 1508054365472506482
+   OPTCalibrationNode::spin() : [/dh_103] checkerboard detect failed.....
+
+ros time: 1.50805e+09 (s) : 1508054365472527297
+   OPTCalibrationNode::spin() : Call status_pub_.publish(status_msg_)
+
+ros time: 1.50805e+09 (s) : 1508054365472546131
+   OPTCalibrationNode::spin() : Call calibration_->perform()
+
+ros time: 1.50805e+09 (s) : 1508054365472604321
+   OPTCalibrationNode::spin() : Call calibration_->publish()
+
+ros time: 1.50805e+09 (s) : 1508054365472628382
+   OPTCalibrationNode::spin() : detected 0 checherboards.
+
+ros time: 1.50805e+09 (s) : 1508054365472637963
+   OPTCalibrationNode::spin() : Call nextAcquisition()
+
+ros time: 1.50805e+09 (s) : 1508054365472687494
+   OPTCalibrationNode::spin() : Call status_pub_.publish(status_msg_)
+
+ros time: 1.50805e+09 (s) : 1508054365472695314
+   OPTCalibrationNode::spin() : Call calibration_->perform()
+
+ros time: 1.50805e+09 (s) : 1508054365472723918
+   OPTCalibrationNode::spin() : Call calibration_->publish()
+
+ros time: 1.50805e+09 (s) : 1508054365472757120
+   OPTCalibrationNode::spin() : detected 0 checherboards.
+
+ros time: 1.50805e+09 (s) : 1508054365672714596
+   OPTCalibrationNode::spin() : Call nextAcquisition()
+
+ros time: 1.50805e+09 (s) : 1508054365675465816
+   OPTCalibrationNode::spin() : Call status_pub_.publish(status_msg_)
+
+ros time: 1.50805e+09 (s) : 1508054365675499828
+   OPTCalibrationNode::spin() : Call calibration_->perform()
+
+ros time: 1.50805e+09 (s) : 1508054365675600030
+   OPTCalibrationNode::spin() : Call calibration_->publish()
+
+ros time: 1.50805e+09 (s) : 1508054365675644268
+   OPTCalibrationNode::spin() : detected 0 checherboards.
+
+ros time: 1.50805e+09 (s) : 1508054365872726976
+   OPTCalibrationNode::spin() : Call nextAcquisition()
+
+ros time: 1.50805e+09 (s) : 1508054365873024468
+   OPTCalibrationNode::spin() : Call status_pub_.publish(status_msg_)
+
+ros time: 1.50805e+09 (s) : 1508054365873294483
+   OPTCalibrationNode::spin() : Call calibration_->perform()
+
+ros time: 1.50805e+09 (s) : 1508054365873411197
+   OPTCalibrationNode::spin() : Call calibration_->publish()
+
+ros time: 1.50805e+09 (s) : 1508054365873440062
+   OPTCalibrationNode::spin() : detected 0 checherboards.
+
+ros time: 1.50805e+09 (s) : 1508054366072701464
+   OPTCalibrationNode::spin() : Call nextAcquisition()
+
+ros time: 1.50805e+09 (s) : 1508054366073152877
+   OPTCalibrationNode::spin() : Call status_pub_.publish(status_msg_)
+
+ros time: 1.50805e+09 (s) : 1508054366073261396
+opt_calibration.cpp -> OPTCalibration::perform() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054366073265759
+   OPTCalibration::perform() : initialization_ == true
+
+ros time: 1.50805e+09 (s) : 1508054366073268184
+opt_calibration.cpp -> OPTCalibration::perform() : End
+
+ros time: 1.50805e+09 (s) : 1508054366073308310
+opt_calibration.cpp -> OPTCalibration::publish() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054366073312505
+opt_calibration.cpp -> OPTCalibration::publish() : End
+
+ros time : 1508054366 (s) : 73617935
+status_plot.py -> CalibrationStatusPlotter::callback() : Begin
+ros time : 1508054366 (s) : 73642969
+status_plot.py -> CalibrationStatusPlotter::callback() : End
+ros time : 1508054366 (s) : 97963094
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : Begin
+ros time : 1508054366 (s) : 128401041
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : End
+ros time: 1.50805e+09 (s) : 1508054366273512930
+opt_calibration.cpp -> OPTCalibration::perform() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054366273536985
+   OPTCalibration::perform() : initialization_ == true
+
+ros time: 1.50805e+09 (s) : 1508054366273543485
+opt_calibration.cpp -> OPTCalibration::perform() : End
+
+ros time: 1.50805e+09 (s) : 1508054366273815601
+opt_calibration.cpp -> OPTCalibration::publish() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054366273831138
+opt_calibration.cpp -> OPTCalibration::publish() : End
+
+ros time : 1508054366 (s) : 276603937
+status_plot.py -> CalibrationStatusPlotter::callback() : Begin
+ros time : 1508054366 (s) : 276644945
+status_plot.py -> CalibrationStatusPlotter::callback() : End
+ros time : 1508054366 (s) : 297766923
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : Begin
+ros time : 1508054366 (s) : 327980041
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : End
+ros time: 1.50805e+09 (s) : 1508054366475896357
+opt_calibration.cpp -> OPTCalibration::perform() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054366475924507
+   OPTCalibration::perform() : initialization_ == true
+
+ros time: 1.50805e+09 (s) : 1508054366475943208
+opt_calibration.cpp -> OPTCalibration::perform() : End
+
+ros time: 1.50805e+09 (s) : 1508054366477172979
+opt_calibration.cpp -> OPTCalibration::publish() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054366477214838
+opt_calibration.cpp -> OPTCalibration::publish() : End
+
+ros time : 1508054366 (s) : 478844881
+status_plot.py -> CalibrationStatusPlotter::callback() : Begin
+ros time : 1508054366 (s) : 478990077
+status_plot.py -> CalibrationStatusPlotter::callback() : End
+ros time : 1508054366 (s) : 497791051
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : Begin
+ros time : 1508054366 (s) : 522361040
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : End
+ros time: 1.50805e+09 (s) : 1508054366672851810
+opt_calibration.cpp -> OPTCalibration::perform() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054366672855748
+   OPTCalibration::perform() : initialization_ == true
+
+ros time: 1.50805e+09 (s) : 1508054366672862463
+opt_calibration.cpp -> OPTCalibration::perform() : End
+
+ros time: 1.50805e+09 (s) : 1508054366672912361
+opt_calibration.cpp -> OPTCalibration::publish() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054366672915939
+opt_calibration.cpp -> OPTCalibration::publish() : End
+
+ros time : 1508054366 (s) : 673120021
+status_plot.py -> CalibrationStatusPlotter::callback() : Begin
+ros time : 1508054366 (s) : 673149108
+status_plot.py -> CalibrationStatusPlotter::callback() : End
+ros time : 1508054366 (s) : 697758913
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : Begin
+ros time : 1508054366 (s) : 716758966
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : End
+ros time : 1508054366 (s) : 876177072
+status_plot.py -> CalibrationStatusPlotter::callback() : Begin
+ros time : 1508054366 (s) : 876209974
+status_plot.py -> CalibrationStatusPlotter::callback() : End
+ros time: 1.50805e+09 (s) : 1508054366876399845
+opt_calibration.cpp -> OPTCalibration::perform() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054366876404278
+   OPTCalibration::perform() : initialization_ == true
+
+ros time: 1.50805e+09 (s) : 1508054366876407213
+opt_calibration.cpp -> OPTCalibration::perform() : End
+
+ros time: 1.50805e+09 (s) : 1508054366876454885
+opt_calibration.cpp -> OPTCalibration::publish() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054366876460847
+opt_calibration.cpp -> OPTCalibration::publish() : End
+
+ros time : 1508054366 (s) : 898180961
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : Begin
+ros time : 1508054366 (s) : 929903984
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : End
+ros time : 1508054367 (s) : 81568002
+status_plot.py -> CalibrationStatusPlotter::callback() : Begin
+ros time : 1508054367 (s) : 81913948
+status_plot.py -> CalibrationStatusPlotter::callback() : End
+ros time: 1.50805e+09 (s) : 1508054367081895988
+opt_calibration.cpp -> OPTCalibration::perform() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054367081942875
+   OPTCalibration::perform() : initialization_ == true
+
+ros time: 1.50805e+09 (s) : 1508054367081964952
+opt_calibration.cpp -> OPTCalibration::perform() : End
+
+ros time: 1.50805e+09 (s) : 1508054367082584470
+opt_calibration.cpp -> OPTCalibration::publish() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054367082594061
+opt_calibration.cpp -> OPTCalibration::publish() : End
+
+ros time : 1508054367 (s) : 97757101
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : Begin
+ros time : 1508054367 (s) : 135545015
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : End
+ros time: 1.50805e+09 (s) : 1508054367275645604
+opt_calibration.cpp -> OPTCalibration::perform() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054367275650353
+   OPTCalibration::perform() : initialization_ == true
+
+ros time: 1.50805e+09 (s) : 1508054367275653461
+opt_calibration.cpp -> OPTCalibration::perform() : End
+
+ros time: 1.50805e+09 (s) : 1508054367275894938
+opt_calibration.cpp -> OPTCalibration::publish() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054367275900065
+opt_calibration.cpp -> OPTCalibration::publish() : End
+
+ros time : 1508054367 (s) : 278512001
+status_plot.py -> CalibrationStatusPlotter::callback() : Begin
+ros time : 1508054367 (s) : 278610944
+status_plot.py -> CalibrationStatusPlotter::callback() : End
+ros time : 1508054367 (s) : 297861099
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : Begin
+ros time : 1508054367 (s) : 331837892
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : End
+ros time: 1.50805e+09 (s) : 1508054367476074421
+opt_calibration.cpp -> OPTCalibration::perform() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054367476110387
+   OPTCalibration::perform() : initialization_ == true
+
+ros time: 1.50805e+09 (s) : 1508054367476124439
+opt_calibration.cpp -> OPTCalibration::perform() : End
+
+ros time : 1508054367 (s) : 477107048
+status_plot.py -> CalibrationStatusPlotter::callback() : Begin
+ros time : 1508054367 (s) : 477180957
+status_plot.py -> CalibrationStatusPlotter::callback() : End
+ros time: 1.50805e+09 (s) : 1508054367478196953
+opt_calibration.cpp -> OPTCalibration::publish() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054367478210154
+opt_calibration.cpp -> OPTCalibration::publish() : End
+
+ros time : 1508054367 (s) : 497934103
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : Begin
+ros time : 1508054367 (s) : 527360916
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : End
+ros time: 1.50805e+09 (s) : 1508054367675370879
+opt_calibration.cpp -> OPTCalibration::perform() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054367675374158
+   OPTCalibration::perform() : initialization_ == true
+
+ros time: 1.50805e+09 (s) : 1508054367675376762
+opt_calibration.cpp -> OPTCalibration::perform() : End
+
+ros time: 1.50805e+09 (s) : 1508054367675422836
+opt_calibration.cpp -> OPTCalibration::publish() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054367675426196
+opt_calibration.cpp -> OPTCalibration::publish() : End
+
+ros time : 1508054367 (s) : 675606012
+status_plot.py -> CalibrationStatusPlotter::callback() : Begin
+ros time : 1508054367 (s) : 675635099
+status_plot.py -> CalibrationStatusPlotter::callback() : End
+ros time : 1508054367 (s) : 697783946
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : Begin
+ros time : 1508054367 (s) : 722176074
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : End
+ros time: 1.50805e+09 (s) : 1508054367873814021
+opt_calibration.cpp -> OPTCalibration::perform() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054367873819815
+   OPTCalibration::perform() : initialization_ == true
+
+ros time: 1.50805e+09 (s) : 1508054367873822548
+opt_calibration.cpp -> OPTCalibration::perform() : End
+
+ros time: 1.50805e+09 (s) : 1508054367873911482
+opt_calibration.cpp -> OPTCalibration::publish() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054367873917658
+opt_calibration.cpp -> OPTCalibration::publish() : End
+
+ros time : 1508054367 (s) : 878562927
+status_plot.py -> CalibrationStatusPlotter::callback() : Begin
+ros time : 1508054367 (s) : 878623008
+status_plot.py -> CalibrationStatusPlotter::callback() : End
+ros time : 1508054367 (s) : 897782087
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : Begin
+ros time : 1508054367 (s) : 928322076
+status_plot.py -> CalibrationStatusPlotter::spinOnce() : End
+ros time: 1.50805e+09 (s) : 1508054368092758008
+opt_calibration.cpp -> OPTCalibration::perform() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054368092763893
+   OPTCalibration::perform() : initialization_ == true
+
+ros time: 1.50805e+09 (s) : 1508054368092766813
+opt_calibration.cpp -> OPTCalibration::perform() : End
+
+ros time: 1.50805e+09 (s) : 1508054368092819713
+opt_calibration.cpp -> OPTCalibration::publish() : Begin
+
+ros time: 1.50805e+09 (s) : 1508054368092824731
+opt_calibration.cpp -> OPTCalibration::publish() : End
+
+ros time : 1508054352 (s) : 608618974
+status_plot.py -> CalibrationStatusPlotter::spin() : Begin
+ros time : 1508054361 (s) : 109215974
+    CalibrationStatusPlotter::spin() : Call self.spinOnce()
+ros time : 1508054361 (s) : 798217058
+    CalibrationStatusPlotter::spin() : Call self.spinOnce()
+ros time : 1508054362 (s) : 397697925
+    CalibrationStatusPlotter::spin() : Call self.spinOnce()
+ros time : 1508054362 (s) : 997884035
+    CalibrationStatusPlotter::spin() : Call self.spinOnce()
+ros time : 1508054363 (s) : 597764968
+    CalibrationStatusPlotter::spin() : Call self.spinOnce()
+ros time : 1508054364 (s) : 397741079
+    CalibrationStatusPlotter::spin() : Call self.spinOnce()
+ros time : 1508054364 (s) : 997730016
+    CalibrationStatusPlotter::spin() : Call self.spinOnce()
+ros time : 1508054365 (s) : 497697114
+    CalibrationStatusPlotter::spin() : Call self.spinOnce()
+ros time : 1508054365 (s) : 697714090
+    CalibrationStatusPlotter::spin() : Call self.spinOnce()
+ros time : 1508054365 (s) : 897713899
+    CalibrationStatusPlotter::spin() : Call self.spinOnce()
+ros time : 1508054366 (s) : 97872972
+    CalibrationStatusPlotter::spin() : Call self.spinOnce()
+ros time : 1508054366 (s) : 297700881
+    CalibrationStatusPlotter::spin() : Call self.spinOnce()
+ros time : 1508054366 (s) : 497725963
+    CalibrationStatusPlotter::spin() : Call self.spinOnce()
+ros time : 1508054366 (s) : 697698116
+    CalibrationStatusPlotter::spin() : Call self.spinOnce()
+ros time : 1508054366 (s) : 898111104
+    CalibrationStatusPlotter::spin() : Call self.spinOnce()
+ros time : 1508054367 (s) : 97698926
+    CalibrationStatusPlotter::spin() : Call self.spinOnce()
+ros time : 1508054367 (s) : 297780036
+    CalibrationStatusPlotter::spin() : Call self.spinOnce()
+ros time : 1508054367 (s) : 497838020
+    CalibrationStatusPlotter::spin() : Call self.spinOnce()
+ros time : 1508054367 (s) : 697716951
+    CalibrationStatusPlotter::spin() : Call self.spinOnce()
+ros time : 1508054367 (s) : 897713899
+    CalibrationStatusPlotter::spin() : Call self.spinOnce()
+ros time : 1508054368 (s) : 172100067
+status_plot.py -> CalibrationStatusPlotter::spin() : End
+ros time : 1508054352 (s) : 602787017
+status_plot.py -> __main__() : Begin()
+
+ros time : 1508054352 (s) : 602803945
+status_plot.py -> __main__() : Call CalibrationStatusPlotter()
+
+ros time : 1508054352 (s) : 608568906
+status_plot.py -> __main__() : Call spin()
+
+ros time : 1508054368 (s) : 172197103
+status_plot.py -> __main__() : End()
+
+ros time: 1.50805e+09 (s) : 1508054366073221596
+   OPTCalibrationNode::spin() : Call calibration_->perform()
+
+ros time: 1.50805e+09 (s) : 1508054366073292473
+   OPTCalibrationNode::spin() : Call calibration_->publish()
+
+ros time: 1.50805e+09 (s) : 1508054366073323348
+   OPTCalibrationNode::spin() : detected 0 checherboards.
+
+ros time: 1.50805e+09 (s) : 1508054366272774023
+   OPTCalibrationNode::spin() : Call nextAcquisition()
+
+ros time: 1.50805e+09 (s) : 1508054366273263008
+   OPTCalibrationNode::spin() : Call status_pub_.publish(status_msg_)
+
+ros time: 1.50805e+09 (s) : 1508054366273336001
+   OPTCalibrationNode::spin() : Call calibration_->perform()
+
+ros time: 1.50805e+09 (s) : 1508054366273749220
+   OPTCalibrationNode::spin() : Call calibration_->publish()
+
+ros time: 1.50805e+09 (s) : 1508054366273870486
+   OPTCalibrationNode::spin() : detected 0 checherboards.
+
+ros time: 1.50805e+09 (s) : 1508054366472727011
+   OPTCalibrationNode::spin() : Call nextAcquisition()
+
+ros time: 1.50805e+09 (s) : 1508054366475528167
+   OPTCalibrationNode::spin() : Call status_pub_.publish(status_msg_)
+
+ros time: 1.50805e+09 (s) : 1508054366475677214
+   OPTCalibrationNode::spin() : Call calibration_->perform()
+
+ros time: 1.50805e+09 (s) : 1508054366477019527
+   OPTCalibrationNode::spin() : Call calibration_->publish()
+
+ros time: 1.50805e+09 (s) : 1508054366477314682
+   OPTCalibrationNode::spin() : detected 0 checherboards.
+
+ros time: 1.50805e+09 (s) : 1508054366672744531
+   OPTCalibrationNode::spin() : Call nextAcquisition()
+
+ros time: 1.50805e+09 (s) : 1508054366672796573
+   OPTCalibrationNode::spin() : Call status_pub_.publish(status_msg_)
+
+ros time: 1.50805e+09 (s) : 1508054366672811371
+   OPTCalibrationNode::spin() : Call calibration_->perform()
+
+ros time: 1.50805e+09 (s) : 1508054366672897019
+   OPTCalibrationNode::spin() : Call calibration_->publish()
+
+ros time: 1.50805e+09 (s) : 1508054366672926222
+   OPTCalibrationNode::spin() : detected 0 checherboards.
+
+ros time: 1.50805e+09 (s) : 1508054366872761691
+   OPTCalibrationNode::spin() : Call nextAcquisition()
+
+ros time: 1.50805e+09 (s) : 1508054366875836938
+   OPTCalibrationNode::spin() : Call status_pub_.publish(status_msg_)
+
+ros time: 1.50805e+09 (s) : 1508054366876351057
+   OPTCalibrationNode::spin() : Call calibration_->perform()
+
+ros time: 1.50805e+09 (s) : 1508054366876434305
+   OPTCalibrationNode::spin() : Call calibration_->publish()
+
+ros time: 1.50805e+09 (s) : 1508054366876477802
+   OPTCalibrationNode::spin() : detected 0 checherboards.
+
+ros time: 1.50805e+09 (s) : 1508054367072707259
+   OPTCalibrationNode::spin() : Call nextAcquisition()
+
+ros time: 1.50805e+09 (s) : 1508054367079654953
+   OPTCalibrationNode::spin() : Call status_pub_.publish(status_msg_)
+
+ros time: 1.50805e+09 (s) : 1508054367081625343
+   OPTCalibrationNode::spin() : Call calibration_->perform()
+
+ros time: 1.50805e+09 (s) : 1508054367082519327
+   OPTCalibrationNode::spin() : Call calibration_->publish()
+
+ros time: 1.50805e+09 (s) : 1508054367082709591
+   OPTCalibrationNode::spin() : detected 0 checherboards.
+
+ros time: 1.50805e+09 (s) : 1508054367272733616
+   OPTCalibrationNode::spin() : Call nextAcquisition()
+
+ros time: 1.50805e+09 (s) : 1508054367275478496
+   OPTCalibrationNode::spin() : Call status_pub_.publish(status_msg_)
+
+ros time: 1.50805e+09 (s) : 1508054367275588938
+   OPTCalibrationNode::spin() : Call calibration_->perform()
+
+ros time: 1.50805e+09 (s) : 1508054367275867975
+   OPTCalibrationNode::spin() : Call calibration_->publish()
+
+ros time: 1.50805e+09 (s) : 1508054367275918278
+   OPTCalibrationNode::spin() : detected 0 checherboards.
+
+ros time: 1.50805e+09 (s) : 1508054367472744387
+   OPTCalibrationNode::spin() : Call nextAcquisition()
+
+ros time: 1.50805e+09 (s) : 1508054367475602823
+   OPTCalibrationNode::spin() : Call status_pub_.publish(status_msg_)
+
+ros time: 1.50805e+09 (s) : 1508054367475762556
+   OPTCalibrationNode::spin() : Call calibration_->perform()
+
+ros time: 1.50805e+09 (s) : 1508054367478084387
+   OPTCalibrationNode::spin() : Call calibration_->publish()
+
+ros time: 1.50805e+09 (s) : 1508054367478338327
+   OPTCalibrationNode::spin() : detected 0 checherboards.
+
+ros time: 1.50805e+09 (s) : 1508054367672720304
+   OPTCalibrationNode::spin() : Call nextAcquisition()
+
+ros time: 1.50805e+09 (s) : 1508054367675234012
+   OPTCalibrationNode::spin() : Call status_pub_.publish(status_msg_)
+
+ros time: 1.50805e+09 (s) : 1508054367675326559
+   OPTCalibrationNode::spin() : Call calibration_->perform()
+
+ros time: 1.50805e+09 (s) : 1508054367675411326
+   OPTCalibrationNode::spin() : Call calibration_->publish()
+
+ros time: 1.50805e+09 (s) : 1508054367675435104
+   OPTCalibrationNode::spin() : detected 0 checherboards.
+
+ros time: 1.50805e+09 (s) : 1508054367872717981
+   OPTCalibrationNode::spin() : Call nextAcquisition()
+
+ros time: 1.50805e+09 (s) : 1508054367873419251
+   OPTCalibrationNode::spin() : Call status_pub_.publish(status_msg_)
+
+ros time: 1.50805e+09 (s) : 1508054367873750875
+   OPTCalibrationNode::spin() : Call calibration_->perform()
+
+ros time: 1.50805e+09 (s) : 1508054367873887362
+   OPTCalibrationNode::spin() : Call calibration_->publish()
+
+ros time: 1.50805e+09 (s) : 1508054367873953534
+   OPTCalibrationNode::spin() : detected 0 checherboards.
+
+ros time: 1.50805e+09 (s) : 1508054368072868423
+   OPTCalibrationNode::spin() : Call nextAcquisition()
+
+ros time: 1.50805e+09 (s) : 1508054368083343867
+   OPTCalibrationNode::spin() : Call status_pub_.publish(status_msg_)
+
+ros time: 1.50805e+09 (s) : 1508054368092677816
+   OPTCalibrationNode::spin() : Call calibration_->perform()
+
+ros time: 1.50805e+09 (s) : 1508054368092804094
+   OPTCalibrationNode::spin() : Call calibration_->publish()
+
+ros time: 1.50805e+09 (s) : 1508054368092849585
+   OPTCalibrationNode::spin() : detected 0 checherboards.
+
+ros time: 1.50805e+09 (s) : 1508054368272700296
+opt_calibration_node.cpp -> OPTCalibrationNode::spin() : End
+
+ros time: 1.50805e+09 (s) : 1508054368273522388
+opt_calibration_node.cpp -> main() : End
+

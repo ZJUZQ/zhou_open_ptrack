@@ -64,12 +64,23 @@ OPTCalibrationNode::OPTCalibrationNode(const ros::NodeHandle & node_handle)
   node_handle_.getParam("debug_code_flow_file", debug_code_flow_file);
 
   if(debug == 1){
+    // class mamber: debug_file
     debug_file.open(debug_code_flow_file.c_str(), std::ios::app);
-    debug_file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+    //debug_file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
     debug_file << "opt_calibration_node.cpp -> OPTCalibrationNode::OPTCalibrationNode() : Begin\n\n";
   }
 
+  if(debug == 1){
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "   OPTCalibrationNode() : Create action_sub_, topic = action \n\n";
+  }
   action_sub_ = node_handle_.subscribe("action", 1, &OPTCalibrationNode::actionCallback, this);
+
+  if(debug == 1){
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "   OPTCalibrationNode() : Create status_pub_, topic = status\n\n";
+  }
   status_pub_ = node_handle_.advertise<opt_msgs::CalibrationStatus>("status", 1);
 
   std::string world_computation_s;
@@ -84,6 +95,7 @@ OPTCalibrationNode::OPTCalibrationNode(const ros::NodeHandle & node_handle)
     ROS_FATAL_STREAM("\"world_computation\" parameter value not valid. Please use \"first_sensor\", \"last_checkerboard\" or \"manual\".");
   
   if(debug == 1){
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
     debug_file << "   OPTCalibrationNode() : world_computation_s = " << world_computation_s << "\n\n";
   }
 
@@ -113,6 +125,7 @@ OPTCalibrationNode::OPTCalibrationNode(const ros::NodeHandle & node_handle)
     fixed_sensor_pose_.translation() = t.vector();
 
     if(debug == 1){
+      debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
       debug_file << "   OPTCalibrationNode() : world_computation_ == UPDATE, and fixed_sensor_frame_id = " << fixed_sensor_frame_id << "\n\n";
     }
   }
@@ -120,6 +133,7 @@ OPTCalibrationNode::OPTCalibrationNode(const ros::NodeHandle & node_handle)
 
   node_handle_.param("num_sensors", num_sensors_, 0);
   if(debug == 1){
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
     debug_file << "   OPTCalibrationNode() : num_sensors_ = " << num_sensors_ << "\n\n";
   }
 
@@ -135,6 +149,11 @@ OPTCalibrationNode::OPTCalibrationNode(const ros::NodeHandle & node_handle)
     ROS_FATAL("Checkerboard parameter missing! Please set \"rows\", \"cols\", \"cell_width\" and \"cell_height\".");
 
   checkerboard_ = boost::make_shared<Checkerboard>(cols, rows, cell_width, cell_height);
+
+  if(debug == 1){
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "   OPTCalibrationNode() : set checkerboard_ frame_id = /checkerboard\n\n";
+  }
   checkerboard_->setFrameId("/checkerboard");
 
   for (int i = 0; i < num_sensors_; ++i)
@@ -149,8 +168,8 @@ OPTCalibrationNode::OPTCalibrationNode(const ros::NodeHandle & node_handle)
       ROS_FATAL_STREAM("No \"" << ss.str() << "\" parameter found!!");
 
     if(debug == 1){
-      debug_file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
-      debug_file << "   OPTCalibrationNode() : type_s = " << ss.str() << " = " << type_s << "\n\n";
+      debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+      debug_file << "   OPTCalibrationNode() : sensor_" << i << "   type_s = " << ss.str() << " = " << type_s << "\n\n";
     }
 
 //    SensorNode::SensorType type;
@@ -172,7 +191,8 @@ OPTCalibrationNode::OPTCalibrationNode(const ros::NodeHandle & node_handle)
     node_handle_.param(ss.str(), frame_id, frame_id);
 
     if(debug == 1){
-      debug_file << "   OPTCalibrationNode() : frame_id = " << ss.str() << " = " << frame_id << "\n\n";
+      debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+      debug_file << "   OPTCalibrationNode() : sensor_" << i << "  frame_id = " << ss.str() << " = " << frame_id << "\n\n";
     }
 
     ROSDevice::Ptr ros_device;
@@ -191,7 +211,7 @@ OPTCalibrationNode::OPTCalibrationNode(const ros::NodeHandle & node_handle)
       }
 
       if(debug == 1){
-        debug_file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+        debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
         debug_file << "   OPTCalibrationNode() : " << device->frameId() << " (PinholeRGBDevice) added. \n\n";
       }
 
@@ -214,6 +234,7 @@ OPTCalibrationNode::OPTCalibrationNode(const ros::NodeHandle & node_handle)
       }
 
       if(debug == 1){
+        debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
         debug_file << "   OPTCalibrationNode() : " << frame_id << " (KinectDevice) added. \n\n";
       }
 
@@ -236,6 +257,7 @@ OPTCalibrationNode::OPTCalibrationNode(const ros::NodeHandle & node_handle)
       }
 
       if(debug == 1){
+        debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
         debug_file << "   OPTCalibrationNode() : " << frame_id << " (SwissRangerDevice) added. \n\n";
       }
 
@@ -257,7 +279,8 @@ OPTCalibrationNode::OPTCalibrationNode(const ros::NodeHandle & node_handle)
     ss << "sensor_" << i;
 
     if(debug == 1){
-      debug_file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+      //debug_file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+      debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
       debug_file << "   OPTCalibrationNode() : Call ros_device->createSubscribers()\n\n";
     }
 
@@ -268,7 +291,8 @@ OPTCalibrationNode::OPTCalibrationNode(const ros::NodeHandle & node_handle)
     ROS_FATAL_STREAM("Wrong \"fixed_sensor/name\" parameter provided: " << fixed_sensor_frame_id);
 
   if(debug == 1){
-    debug_file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+    //debug_file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
     debug_file << "opt_calibration_node.cpp -> OPTCalibrationNode::OPTCalibrationNode() : End\n\n";
     debug_file.close();
   }
@@ -278,7 +302,7 @@ bool OPTCalibrationNode::initialize()
 {
   if(debug == 1){
     debug_file.open(debug_code_flow_file.c_str(), std::ios::app);
-    debug_file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
     debug_file << "opt_calibration_node.cpp -> OPTCalibrationNode::initialize() : Begin\n\n";
   }
 
@@ -302,29 +326,34 @@ bool OPTCalibrationNode::initialize()
   }
 
   if(debug ==1){
-    debug_file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
     debug_file << "   OPTCalibrationNode::initialize() : All sensors connected.\n\n";
   }
 
   ROS_INFO("All sensors connected.");
 
   calibration_ = boost::make_shared<OPTCalibration>(node_handle_);
+
+  if(debug == 1){
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "   OPTCalibrationNode::initialize() : Call calibration_->setCheckerboard(checkerboard_)\n\n";
+  }
   calibration_->setCheckerboard(checkerboard_);
 
   for (size_t i = 0; i < pinhole_vec_.size(); ++i)
   {
 
     const PinholeRGBDevice::Ptr & device = pinhole_vec_[i];
+
+    if(debug == 1){
+      debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+      debug_file << "   OPTCalibrationNode::initialize() : Call  calibration_->addSensor(PinholeRGBDevice) " << device->frameId() <<"\n\n";
+    }
     calibration_->addSensor(device->sensor(), true);
     sensor_vec_.push_back(device->sensor());
     images_acquired_map_[device->frameId()] = 0;
     
     status_msg_.sensor_ids.push_back(device->frameId());
-
-    if(debug == 1){
-      debug_file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
-      debug_file << "   calibration_->addSensor( PinholeRGBDevice ), frame_id =  " <<  device->frameId() << "\n\n";
-    }
   }
 
   for (size_t i = 0; i < kinect_vec_.size(); ++i) // TODO Add flags
@@ -340,6 +369,7 @@ bool OPTCalibrationNode::initialize()
     status_msg_.sensor_ids.push_back(device->depthFrameId());
 
     if(debug == 1){
+      debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
       debug_file << "   calibration_->addSensor( KinectDevice )\n";
     }
   }
@@ -355,6 +385,7 @@ bool OPTCalibrationNode::initialize()
     status_msg_.sensor_ids.push_back(device->frameId());
 
     if(debug == 1){
+      debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
       debug_file << "   calibration_->addSensor( SwissRangerDevice )\n";
     }
   }
@@ -365,7 +396,7 @@ bool OPTCalibrationNode::initialize()
   status_pub_.publish(status_msg_);
 
   if(debug == 1){
-    debug_file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
     debug_file << "opt_calibration_node.cpp -> OPTCalibrationNode::initialize() : End\n\n";
     debug_file.close();
   }
@@ -376,16 +407,28 @@ bool OPTCalibrationNode::initialize()
 void OPTCalibrationNode::actionCallback(const std_msgs::String::ConstPtr & msg)
 {
   std::ofstream file;
+
   if(debug == 1){
     file.open(debug_code_flow_file.c_str(), std::ios::app);
-    file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+    file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
     file << "opt_calibration_node.cpp -> OPTCalibrationNode::actionCallback(" << msg->data << " ) : Begin\n\n";
   }
 
   if (msg->data == "save" or msg->data == "saveExtrinsicCalibration")
   {
     ROS_INFO("Saving calibration results...");
+
+    if(debug == 1){
+      file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+      file << "   OPTCalibrationNode::actionCallback() : Call calibration_->optimize()\n\n";
+    }
+
     calibration_->optimize();
+
+    if(debug == 1){
+      file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+      file << "   OPTCalibrationNode::actionCallback() : Call save()\n\n";
+    }
     save();
   }
   else if (msg->data == "start floor")
@@ -413,7 +456,7 @@ void OPTCalibrationNode::actionCallback(const std_msgs::String::ConstPtr & msg)
   }
 
   if(debug == 1){
-    file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+    file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
     file << "opt_calibration_node.cpp -> OPTCalibrationNode::actionCallback(" << msg->data << " ) : End\n\n";
     file.close();
   }
@@ -426,7 +469,7 @@ void OPTCalibrationNode::spin()
   std::ofstream file;
   if(debug == 1){
     file.open(debug_code_flow_file.c_str(), std::ios::app);
-    file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+    file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
     file << "opt_calibration_node.cpp -> OPTCalibrationNode::spin() : Begin\n\n";
   }
 
@@ -437,7 +480,7 @@ void OPTCalibrationNode::spin()
     ros::spinOnce();
 
     if(debug == 1 && count_spin < 10){
-      file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+      file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
       file << "   OPTCalibrationNode::spin() : Call nextAcquisition()\n\n";
     }
 
@@ -453,7 +496,7 @@ void OPTCalibrationNode::spin()
         if (device->hasNewMessages())
         {
           if(debug == 1 && count_spin < 10){
-            file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+            file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
             file << "   OPTCalibrationNode::spin() : Call device->convertLastMessages()\n\n";
           }
 
@@ -464,14 +507,14 @@ void OPTCalibrationNode::spin()
 #pragma omp critical
 
           if(debug == 1 && count_spin < 10){
-            file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+            file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
             file << "   OPTCalibrationNode::spin() : Call analyzeData()\n\n";
           }
 
           if (calibration_->analyzeData(device->sensor(), data->image, cb_view))
           {
             if(debug == 1 && count_spin < 10){
-              file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+              file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
               file << "   OPTCalibrationNode::spin() : [" << device->frameId() << "] checkerboard detected.\n\n";
               file << "   OPTCalibrationNode::spin() : Call addData(device->sensor(), cb_view)\n\n";
             }
@@ -483,7 +526,7 @@ void OPTCalibrationNode::spin()
           }
           else{
             if(debug == 1 && count_spin < 10){
-              file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+              file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
               file << "   OPTCalibrationNode::spin() : [" << device->frameId() << "] checkerboard detect failed.....\n\n";
             }
           }
@@ -556,19 +599,19 @@ void OPTCalibrationNode::spin()
     }
     
     if(debug == 1 && count_spin < 10){
-      file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+      file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
       file << "   OPTCalibrationNode::spin() : Call status_pub_.publish(status_msg_)\n\n";
     }
     status_pub_.publish(status_msg_);
 
     if(debug == 1 && count_spin < 10){
-      file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+      file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
       file << "   OPTCalibrationNode::spin() : Call calibration_->perform()\n\n";
     }
     calibration_->perform();
 
     if(debug == 1 && count_spin < 10){
-      file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+      file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
       file << "   OPTCalibrationNode::spin() : Call calibration_->publish()\n\n";
     }
     calibration_->publish();
@@ -579,7 +622,7 @@ void OPTCalibrationNode::spin()
     }
 
     if(debug == 1 && count_spin < 10){
-      file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+      file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
       file << "   OPTCalibrationNode::spin() : detected " << count <<" checherboards.\n\n";
     }
 
@@ -587,7 +630,7 @@ void OPTCalibrationNode::spin()
   }
 
   if(debug == 1){
-    file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+    file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
     file << "opt_calibration_node.cpp -> OPTCalibrationNode::spin() : End\n\n";
     file.close();
   }
@@ -696,7 +739,7 @@ bool OPTCalibrationNode::save()
   ROS_INFO_STREAM(file_name << " created!");
 
   if(debug == 1){
-    file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+    file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
     file_debug << "opt_calibration_node.cpp -> OPTCalibrationNode::save() : End\n\n";
     file_debug.close();
   }
@@ -722,7 +765,8 @@ int main(int argc, char ** argv)
 
   if(debug == 1){
     debug_file.open(debug_code_flow_file.c_str(), std::ios::app);
-    debug_file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    //debug_file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
     debug_file << "opt_calibration_node.cpp -> main() : Begin\n\n";
     debug_file.close();
   }
@@ -744,7 +788,8 @@ int main(int argc, char ** argv)
 
   if(debug == 1){
     debug_file.open(debug_code_flow_file.c_str(), std::ios::app);
-    debug_file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+    //debug_file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
     debug_file << "opt_calibration_node.cpp -> main() : End\n\n";
     debug_file.close();
   }

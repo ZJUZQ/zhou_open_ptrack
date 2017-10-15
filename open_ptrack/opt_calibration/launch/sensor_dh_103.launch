@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
-<!-- SESSION ID: 1508037820 -->
+<!-- SESSION ID: 1508054332 -->
 <launch>
 
   <!-- Sensor parameters -->
-  <arg name="sensor_name"     default="hc_101" />
-  <arg name="camera_ip"   default="192.168.200.201" />
+  <arg name="sensor_name"     default="dh_103" />
+  <arg name="camera_ip"   default="192.168.200.203" />
 
   <!-- Launch sensor -->
-  <include file="$(find hc_bridge)/launch/hc_bridge.launch">
+  <include file="$(find dh_bridge)/launch/dh_bridge.launch">
     <arg name="sensor_name"         value="$(arg sensor_name)" />
     <arg name="camera_ip"           value="$(arg camera_ip)" />
     <arg name="publish_frame"       value="true" />

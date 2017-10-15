@@ -61,17 +61,54 @@ OPTCalibration::OPTCalibration(const ros::NodeHandle & node_handle)
     floor_acquisition_(false),
     floor_estimated_(false)
 {
+  m_debug = 0;
+  node_handle_.getParam("debug", m_debug);
+  node_handle_.getParam("debug_code_flow_file", m_debug_code_flow_file);
+  std::ofstream debug_file;
+
+  if(m_debug == 1){
+    debug_file.open(m_debug_code_flow_file.c_str(), std::ios::app);
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "opt_calibration.cpp -> OPTCalibration::OPTCalibration() : Begin\n";
+    debug_file << "   OPTCalibration() : Create marker_pub_, topic = markers\n\n";
+  }
   marker_pub_ = node_handle_.advertise<visualization_msgs::Marker>("markers", 0);
+
+  if(m_debug == 1){
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "opt_calibration.cpp -> OPTCalibration::OPTCalibration() : End\n\n";
+    debug_file.close();
+  }
 }
 
 void OPTCalibration::addSensor(const cb::PinholeSensor::Ptr & sensor,
                                bool estimate_pose)
 {
+  std::ofstream debug_file;
+
+  if(m_debug == 1){
+    debug_file.open(m_debug_code_flow_file.c_str(), std::ios::app);
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "opt_calibration.cpp -> OPTCalibration::addSensor() : Begin\n";
+    debug_file << "   addSensor() : Create new TreeNode::Ptr node, node_type = INTENSITY\n\n";
+  }
+
   sensor_vec_.push_back(sensor);
   TreeNode::Ptr node = boost::make_shared<TreeNode>(sensor, sensor_vec_.size() - 1, TreeNode::INTENSITY);
   node_map_[sensor] = node;
   node_vec_.push_back(node);
+
+  if(m_debug == 1){
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "   addSensor() : Call node->setEstimatePose()\n\n";
+  }
   node->setEstimatePose(estimate_pose);
+
+  if(m_debug == 1){
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "opt_calibration.cpp -> OPTCalibration::addSensor() : End\n";
+    debug_file.close();
+  }
 }
 
 void OPTCalibration::addSensor(const cb::DepthSensor::Ptr & sensor,
@@ -146,19 +183,35 @@ bool OPTCalibration::analyzeData(const cb::PinholeSensor::Ptr & color_sensor,
                                  const cv::Mat & image,
                                  CheckerboardView::Ptr & color_cb_view)
 {
-  std::cout << "debug/ opt_calibration.cpp/ analyzeData 0" << std::endl;
+  std::ofstream debug_file;
+
+  if(m_debug == 1){
+    debug_file.open(m_debug_code_flow_file.c_str(), std::ios::app);
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "opt_calibration.cpp -> OPTCalibration::analyzeData() : Begin\n";
+    debug_file << "   analyzeData() : Create OPTCheckerboardExtraction\n\n";
+  }
 
   OPTCheckerboardExtraction ex;
+
+  if(m_debug == 1){
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "   analyzeData() : Set OPTCheckerboardExtraction's  Image, ColorSensor, CheckerBoard\n\n";
+  }
+
   ex.setImage(image);
   ex.setColorSensor(color_sensor);
   ex.setCheckerboard(checkerboard_);
 
   cb::PinholeView<cb::Checkerboard>::Ptr color_view;
   cb::Checkerboard::Ptr extracted_checkerboard;
+
+  if(m_debug == 1){
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "   analyzeData() : Call OPTCheckerboardExtraction::perform()\n\n";
+  }
   if (ex.perform(color_view, extracted_checkerboard))
   {
-    std::cout << "debug/ opt_calibration.cpp/ analyzeData 1" << std::endl;
-
     visualization_msgs::Marker checkerboard_marker;
     checkerboard_marker.ns = "checkerboard";
     checkerboard_marker.id = node_map_[color_sensor]->id();
@@ -175,19 +228,50 @@ bool OPTCalibration::analyzeData(const cb::PinholeSensor::Ptr & color_sensor,
                                                          floorAcquisition());
 //    analyzeData(color_sensor, color_view, extracted_checkerboard, extracted_checkerboard->center());
 
+    if(m_debug == 1){
+      debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+      debug_file << "   analyzeData() : Extracted checkerboard success!\n";
+      debug_file << "opt_calibration.cpp -> OPTCalibration::analyzeData() : End\n\n";
+      debug_file.close();
+    }
     return true;
+  }
+
+  if(m_debug == 1){
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "   analyzeData() : Extracted checkerboard failed...\n";
+    debug_file << "opt_calibration.cpp -> OPTCalibration::analyzeData() : End\n";
+    debug_file.close();
   }
   return false;
 }
 
 void OPTCalibration::perform()
 {
+  std::ofstream debug_file;
+
+  if(m_debug == 1){
+    debug_file.open(m_debug_code_flow_file.c_str(), std::ios::app);
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "opt_calibration.cpp -> OPTCalibration::perform() : Begin\n\n";
+  }
+
   const ViewMap & view_map = view_map_vec_.back();
 
   if (initialization_)
   {
+    if(m_debug == 1){
+      debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+      debug_file << "   OPTCalibration::perform() : initialization_ == true\n\n";
+    }
+
     if (not tree_initialized_ and not view_map.empty()) // Set /world
     {
+      if(m_debug == 1){
+        debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+        debug_file << "   OPTCalibration::perform() : tree_initialized_ == false\n\n";
+      }
+
       ViewMap::const_iterator it = view_map.begin();
 
       while (it != view_map.end() and it->first->type() == TreeNode::DEPTH)
@@ -202,6 +286,11 @@ void OPTCalibration::perform()
       TreeNode::Ptr tree_node = it->first;
       tree_node->sensor()->setParent(world_);
       tree_node->setLevel(0);
+
+      if(m_debug == 1){
+        debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+        debug_file << "   OPTCalibration::perform() : "<< tree_node->sensor()->frameId() << " added to the tree.\n\n";
+      }
 
       ROS_INFO_STREAM(tree_node->sensor()->frameId() << " added to the tree.");
       tree_initialized_ = true;
@@ -275,14 +364,28 @@ void OPTCalibration::perform()
   }
   else
   {
+    if(m_debug == 1){
+      debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+      debug_file << "   OPTCalibration::perform() : initialization_ == false\n\n";
+    }
+
     if (view_map.empty())
     {
       view_map_vec_.resize(view_map_vec_.size() - 1); // Remove data
     }
     else if (view_map.size() >= 2) // At least 2 cameras
     {
+      if(m_debug == 1){
+        debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+        debug_file << "   OPTCalibration::perform() : view_map.size() >= 2\n\n";
+      }
+
       if (last_optimization_ == 0)
       {
+        if(m_debug == 1){
+          debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+          debug_file << "   OPTCalibration::perform() : Call  OPTCalibration::optimize()\n\n";
+        }
         optimize();
         last_optimization_ = OPTIMIZATION_COUNT;
       }
@@ -290,16 +393,36 @@ void OPTCalibration::perform()
         last_optimization_--;
     }
   }
+  if(m_debug == 1){
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "opt_calibration.cpp -> OPTCalibration::perform() : End\n\n";
+    debug_file.close();
+  }
 }
 
 void OPTCalibration::publish()
 {
+  std::ofstream debug_file;
+
+  if(m_debug == 1){
+    debug_file.open(m_debug_code_flow_file.c_str(), std::ios::app);
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "opt_calibration.cpp -> OPTCalibration::publish() : Begin\n\n";
+  }
+
   for (size_t i = 0; i < node_vec_.size(); ++i)
   {
     TreeNode::Ptr sensor_node = node_vec_[i];
     geometry_msgs::TransformStamped transform_msg;
     if (sensor_node->sensor()->toTF(transform_msg))
+    {
+      if(m_debug == 1){
+        debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+        debug_file << "   OPTCalibration::publish() : Call tf_pub_.sendTransform()\n\n";
+      }
+
       tf_pub_.sendTransform(transform_msg);
+    }
   }
 
   for (size_t i = 0; i < checkerboard_vec_.size(); ++i)
@@ -309,11 +432,20 @@ void OPTCalibration::publish()
     checkerboard->toMarker(marker);
     marker.ns = "optimized checkerboard";
     marker.id = i;
+    if(m_debug == 1){
+      debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+      debug_file << "   OPTCalibration::publish() : Call marker_pub_.publish()\n\n";
+    }
     marker_pub_.publish(marker);
   }
 
   if (floor_estimated_)
   {
+    if(m_debug == 1){
+      debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+      debug_file << "   OPTCalibration::publish() : floor_estimated_ == true\n\n";
+    }
+
     cb::Vector3 floor_origin = -floor_.normal() * floor_.offset();
     cb::Vector3 floor_x = (floor_.projection(floor_origin + cb::Vector3::UnitX()) - floor_origin).normalized();
 
@@ -328,11 +460,21 @@ void OPTCalibration::publish()
     plane.setParent(world_);
 
     visualization_msgs::Marker marker;
+    if(m_debug == 1){
+      debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+      debug_file << "   OPTCalibration::publish() : Call plane.toMarker()\n\n";
+    }
+
     plane.toMarker(marker);
     marker.ns = "floor";
     marker.id = 0;
     marker.scale.x = 10;
     marker.scale.y = 10;
+
+    if(m_debug == 1){
+      debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+      debug_file << "   OPTCalibration::publish() : Call marker_pub_.publish()\n\n";
+    }
     marker_pub_.publish(marker);
 
     geometry_msgs::TransformStamped transform_msg;
@@ -340,10 +482,23 @@ void OPTCalibration::publish()
       tf_pub_.sendTransform(transform_msg);
   }
 
+  if(m_debug == 1){
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "opt_calibration.cpp -> OPTCalibration::publish() : End\n\n";
+    debug_file.close();
+  }
 }
 
 bool OPTCalibration::estimateFloor()
 {
+  std::ofstream debug_file;
+
+  if(m_debug == 1){
+    debug_file.open(m_debug_code_flow_file.c_str(), std::ios::app);
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "opt_calibration.cpp -> OPTCalibration::estimateFloor() : Begin\n\n";
+  }
+
   cb::Cloud3 cloud(cb::Size2(checkerboard_->corners().elements(), is_floor_vec_.size()));
   size_t size = 0;
   for (size_t i = 0; i < is_floor_vec_.size(); ++i)
@@ -356,19 +511,46 @@ bool OPTCalibration::estimateFloor()
       ++size;
     }
   }
-  if (size < 1)
+  if (size < 1){
+    if(m_debug == 1){
+      debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+      debug_file << "   OPTCalibration::estimateFloor() : Failed...\n\n";
+      debug_file << "opt_calibration.cpp -> OPTCalibration::estimateFloor() : End\n\n";
+      debug_file.close();
+    }
     return false;
+  }
 
   cloud.resize(cb::Size2(checkerboard_->corners().elements(), size));
   floor_ = cb::PlaneFit<cb::Scalar>::fit(cloud);
   if (floor_.offset() < 0)
     floor_.coeffs() = -floor_.coeffs();
+
+  if(m_debug == 1){
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "   OPTCalibration::estimateFloor() : Succeed!\n\n";
+    debug_file << "opt_calibration.cpp -> OPTCalibration::estimateFloor() : End\n\n";
+    debug_file.close();
+  }
   return true;
 
 }
 
 void OPTCalibration::convertToWorldFrame()
 {
+  std::ofstream debug_file;
+
+  if(m_debug == 1){
+    debug_file.open(m_debug_code_flow_file.c_str(), std::ios::app);
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "opt_calibration.cpp -> OPTCalibration::convertToWorldFrame() : Begin\n\n";
+  }
+
+  if(m_debug == 1){
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "   OPTCalibration::convertToWorldFrame() : converting node...\n\n";
+  }
+
   for (size_t i = 0; i < node_vec_.size(); ++i)
   {
     const TreeNode & sensor_node = *node_vec_[i];
@@ -384,6 +566,11 @@ void OPTCalibration::convertToWorldFrame()
     }
 
     //ROS_INFO_STREAM(std::endl << sensor_node.sensor()->pose().matrix());
+  }
+
+  if(m_debug == 1){
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "   OPTCalibration::convertToWorldFrame() : converting checkerboard...\n\n";
   }
 
   for (size_t i = checkerboard_vec_.size(); i < view_map_vec_.size(); ++i)
@@ -416,6 +603,12 @@ void OPTCalibration::convertToWorldFrame()
     checkerboard_vec_.push_back(cb);
     is_floor_vec_.push_back(cb_view->is_floor);
 
+  }
+
+  if(m_debug == 1){
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "opt_calibration.cpp -> OPTCalibration::convertToWorldFrame() : End\n\n";
+    debug_file.close();
   }
 }
 
@@ -703,6 +896,14 @@ private:
 
 void OPTCalibration::optimize()
 {
+  std::ofstream debug_file;
+
+  if(m_debug == 1){
+    debug_file.open(m_debug_code_flow_file.c_str(), std::ios::app);
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "opt_calibration.cpp -> OPTCalibration::optimize() : Begin\n\n";
+  }
+
   convertToWorldFrame();
 
   ROS_INFO("Optimizing...");
@@ -921,6 +1122,12 @@ void OPTCalibration::optimize()
       }
     }
   }
+
+  if(m_debug == 1){
+    debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+    debug_file << "opt_calibration.cpp -> OPTCalibration::optimize() : End\n\n";
+    debug_file.close();
+  }
 }
 
 const cb::Pose & OPTCalibration::getLastCheckerboardPose() const
@@ -930,3 +1137,4 @@ const cb::Pose & OPTCalibration::getLastCheckerboardPose() const
 
 } /* namespace opt_calibration */
 } /* namespace open_ptrack */
+

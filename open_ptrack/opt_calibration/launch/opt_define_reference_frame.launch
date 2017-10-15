@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- SESSION ID: 1507985328 -->
+<!-- SESSION ID: 1508054332 -->
 <launch>
 
   <!-- Calibration parameters -->
@@ -8,7 +8,7 @@
   <!-- Network parameters -->
   <arg name="num_sensors"   default="1" />
 
-  <arg name="sensor_0_id"   default="hc_101" />
+  <arg name="sensor_0_id"   default="dh_103" />
   <arg name="sensor_0_name" default="$(arg sensor_0_id)" />
 
   <!-- Launching calibration -->

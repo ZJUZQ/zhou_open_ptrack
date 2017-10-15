@@ -28,9 +28,9 @@
 network:
   - pc: "pc101" #must be same as ROS_PC_NAME
     sensors:
-      - type: hc
-        id: "hc_101"
-        ip: "192.168.200.201"
+      - type: dh
+        id: "dh_103"
+        ip: "192.168.200.203"
 
 # Checkerboard parameters
 checkerboard:

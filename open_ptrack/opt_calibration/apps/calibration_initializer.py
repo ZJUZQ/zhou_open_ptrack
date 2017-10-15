@@ -42,6 +42,7 @@ import roslib; roslib.load_manifest('opt_calibration')
 import rospy
 import rospkg
 from opt_msgs.srv import *
+import time
 
 class CalibrationInitializer :
 
@@ -49,9 +50,12 @@ class CalibrationInitializer :
     
     self.debug = rospy.get_param('~debug')
     self.debug_code_flow_file = rospy.get_param('~debug_code_flow_file')
+
+    # debug_file: local variable
     debug_file = open(self.debug_code_flow_file, 'a') # 'w' if the file exists, then first empty, and then (re) create
 
     if self.debug == 1:
+      debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
       debug_file.write('calibration_initializer.py -> __init__() : Begin \n\n')
     
     network = rospy.get_param('~network')
@@ -71,7 +75,9 @@ class CalibrationInitializer :
     self.session_id = rospy.Time.now().secs
 
     if self.debug == 1:
+      debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
       debug_file.write('calibration_initializer.py -> __init__() : End \n\n')
+
     debug_file.close()
         
   
@@ -80,7 +86,8 @@ class CalibrationInitializer :
     debug_file = open(self.debug_code_flow_file, 'a') # open with append
 
     if self.debug == 1:
-      debug_file.write('calibration_initializer.py -> createMaster() : Begin \n\n')
+      debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
+      debug_file.write('calibration_initializer.py -> createMaster() : Begin \n')
       debug_file.write('calibration_initializer.py -> createMaster() : create opt_calibration_master.launch \n\n')
 
     ############# write: opt_calibration_master.launch ############
@@ -112,8 +119,9 @@ class CalibrationInitializer :
 #         file.write('  <arg name="sensor_' + str(index) + '_id"   default="' + sensor_name  + '" />\n')
 #       else:
 #         file.write('  <arg name="sensor_' + str(index) + '_id"   default="' + sensor['id']  + '" />\n')
-      if sensor['type'] == 'hc':
+      if ( sensor['type'] == 'hc' or sensor['type'] == 'dh' ):
         file.write('  <arg name="sensor_' + str(index) + '_ip"   default="' + sensor['ip']  + '" />\n')        
+      
       file.write('  <arg name="sensor_' + str(index) + '_id"   default="' + sensor['id']  + '" />\n')
       file.write('  <arg name="sensor_' + str(index) + '_name" default="$(arg sensor_' + str(index) + '_id)" />\n\n')
       index = index + 1
@@ -130,6 +138,7 @@ class CalibrationInitializer :
     
     file.write('  <!-- Plot calibration status -->\n')
     file.write('  <node name="opt_calibration_status_plot" pkg="opt_calibration" type="status_plot.py" output="screen">\n')
+    file.write('    <rosparam command="load"  file="$(arg debug_yaml)" /> \n\n')
     file.write('    <remap from="~calibration_status" to="/opt_calibration/status" />\n')
     file.write('  </node>\n\n')
     
@@ -155,6 +164,7 @@ class CalibrationInitializer :
     index = 0
     for sensor in self.sensor_list:
       file.write('    <param name="sensor_' + str(index) + '/name"         value="/$(arg sensor_' + str(index) + '_name)" />\n')
+      
       if sensor['type'] == 'sr4500':
         file.write('    <param name="sensor_' + str(index) + '/type"         value="pinhole_rgb" />\n')
         file.write('    <remap from="~sensor_' + str(index) + '/image"       to="/$(arg sensor_' + str(index) + '_name)/intensity/image_resized" />\n')
@@ -171,7 +181,7 @@ class CalibrationInitializer :
         file.write('    <param name="sensor_' + str(index) + '/type"         value="pinhole_rgb" />\n')
         file.write('    <remap from="~sensor_' + str(index) + '/image"       to="/$(arg sensor_' + str(index) + '_name)/left/image_color" />\n')
         file.write('    <remap from="~sensor_' + str(index) + '/camera_info" to="/$(arg sensor_' + str(index) + '_name)/left/camera_info" />\n\n')
-      elif sensor['type'] == 'hc':
+      elif ( sensor['type'] == 'hc' or sensor['type'] == 'dh' ):
         file.write('    <param name="sensor_' + str(index) + '/type"         value="pinhole_rgb" />\n')
         file.write('    <param name="sensor_' + str(index) + '/ip"         value="/$(arg sensor_' + str(index) + '_ip)" />\n')
         file.write('    <remap from="~sensor_' + str(index) + '/image"       to="/$(arg sensor_' + str(index) + '_name)/image" />\n')
@@ -187,6 +197,7 @@ class CalibrationInitializer :
     file.close()
 
     if self.debug == 1:
+      debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
       debug_file.write('calibration_initializer.py -> createMaster() : create opt_define_reference_frame.launch \n\n')
    
     # Create launch file for defining user reference frame:
@@ -241,7 +252,7 @@ class CalibrationInitializer :
         file.write('    <param name="sensor_' + str(index) + '/type"         value="pinhole_rgb" />\n')
         file.write('    <remap from="~sensor_' + str(index) + '/image"       to="/$(arg sensor_' + str(index) + '_name)/left/image_color" />\n')
         file.write('    <remap from="~sensor_' + str(index) + '/camera_info" to="/$(arg sensor_' + str(index) + '_name)/left/camera_info" />\n\n')
-      elif sensor['type'] == 'hc':
+      elif ( sensor['type'] == 'hc' or sensor['type'] == 'dh' ):
         file.write('    <param name="sensor_' + str(index) + '/type"         value="pinhole_rgb" />\n')
         file.write('    <remap from="~sensor_' + str(index) + '/image"       to="/$(arg sensor_' + str(index) + '_name)/image" />\n')
         file.write('    <remap from="~sensor_' + str(index) + '/camera_info" to="/$(arg sensor_' + str(index) + '_name)/camera_info" />\n\n')
@@ -255,7 +266,9 @@ class CalibrationInitializer :
     file.close()
 
     if self.debug == 1:
+      debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
       debug_file.write('calibration_initializer.py -> createMaster() : End \n\n')
+
     debug_file.close()
 
   def fileName(self) :
@@ -267,7 +280,9 @@ class CalibrationInitializer :
   def __invokeService(self, local_service_name) :
     
     debug_file = open(self.debug_code_flow_file, 'a')
+
     if self.debug == 1:
+      debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
       debug_file.write('calibration_initializer.py -> __invokeService(' + local_service_name + ') : Begin \n\n')
    
     # For each pc
@@ -300,7 +315,10 @@ class CalibrationInitializer :
           sensor_msg.serial_right = sensor_item['serial_right']
 
         elif sensor_item['type'] == 'hc':
-          sensor_msg.type = OPTSensorRequest.TYPE_HC;
+          sensor_msg.type = OPTSensorRequest.TYPE_HC; # defined in OPTSensor.srv
+          sensor_msg.ip = sensor_item['ip'];
+        elif sensor_item['type'] == 'dh':
+          sensor_msg.type = OPTSensorRequest.TYPE_DH; # defined in OPTSensor.srv
           sensor_msg.ip = sensor_item['ip'];
       
         # Invoke service
@@ -317,6 +335,7 @@ class CalibrationInitializer :
           rospy.logerr("Service call failed: %s"%e)
 
     if self.debug == 1:
+      debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
       debug_file.write('calibration_initializer.py -> __invokeService(' + local_service_name + ') : End \n\n')
     debug_file.close()
 
@@ -324,24 +343,30 @@ class CalibrationInitializer :
     debug_file = open(self.debug_code_flow_file, 'a')
 
     if self.debug == 1:
+      debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
       debug_file.write('calibration_initializer.py -> createSensorLaunch() : Begin \n\n')
 
     self.__invokeService('create_sensor_launch')
 
     if self.debug == 1:
+      debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
       debug_file.write('calibration_initializer.py -> createSensorLaunch() : End \n\n')
+
     debug_file.close()
           
   def createDetectorLaunch(self) :
     debug_file = open(self.debug_code_flow_file, 'a')
 
     if self.debug == 1:
+      debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
       debug_file.write('calibration_initializer.py -> createDetectorLaunch() : Begin \n\n')
 
     self.__invokeService('create_detector_launch')
 
     if self.debug == 1:
+      debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
       debug_file.write('calibration_initializer.py -> createDetectorLaunch() : End \n\n')
+
     debug_file.close()
     
 
@@ -354,6 +379,7 @@ if __name__ == '__main__' :
 
   if debug == 1:
     debug_file = open(debug_file_name, 'w')
+    debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
     debug_file.write('calibration_initializer.py -> __main__ : Begin \n\n')
     debug_file.close()
     
@@ -378,5 +404,6 @@ if __name__ == '__main__' :
 
   if debug == 1:
     debug_file = open(debug_file_name, 'a')
+    debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
     debug_file.write('calibration_initializer.py -> __main__ : End \n\n')
     debug_file.close()

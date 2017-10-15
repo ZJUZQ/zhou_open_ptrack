@@ -3,6 +3,9 @@
 #include <open_ptrack/opt_calibration/ros_device.h>
 #include <fstream>
 
+#include <ros/ros.h>
+#include <ros/package.h>
+
 namespace open_ptrack
 {
 namespace opt_calibration
@@ -17,7 +20,7 @@ void PinholeRGBDevice::imageCallback(const sensor_msgs::Image::ConstPtr & image_
   std::ofstream file;
   if(debug_ == 1 && count == 0){
     file.open(debug_code_flow_file_.c_str(), std::ios::app);
-    file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+    file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
     file << "ros_device.cpp -> PinholeRGBDevice starting received image...\n";
     file << "ros_device.cpp -> PinholeRGBDevice::imageCallback() : Begin\n";
   }
@@ -25,7 +28,7 @@ void PinholeRGBDevice::imageCallback(const sensor_msgs::Image::ConstPtr & image_
   setHasNewMessages(last_messages_.camera_info_msg);
 
   if(debug_ == 1 && count == 0){
-    file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+    file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
     file << "     Call setHasNewMessages(),  set has_new_messages_ = true\n";
     file << "ros_device.cpp -> PinholeRGBDevice::imageCallback() : End\n\n";
     file.close();
@@ -41,7 +44,7 @@ void PinholeRGBDevice::cameraInfoCallback(const sensor_msgs::CameraInfo::ConstPt
   std::ofstream file;
   if(debug_ == 1 && count == 0){
     file.open(debug_code_flow_file_.c_str(), std::ios::app);
-    file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+    file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
     file << "ros_device.cpp -> PinholeRGBDevice starting received camera_info...\n";
     file << "ros_device.cpp -> PinholeRGBDevice::cameraInfoCallback() : Begin\n\n";
   }
@@ -54,7 +57,7 @@ void PinholeRGBDevice::cameraInfoCallback(const sensor_msgs::CameraInfo::ConstPt
     sensor_->setFrameId(frameId());
     sensor_->setCameraModel(cm);
     if(debug_ == 1){
-      file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+      file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
       file << "   Set PinholeRGBDevice's sensor_\n";
       file << "   Call setFrameId( " << frameId() << " )\n";
       file << "   Call setCameraModel()\n\n";
@@ -63,7 +66,7 @@ void PinholeRGBDevice::cameraInfoCallback(const sensor_msgs::CameraInfo::ConstPt
   setHasNewMessages(last_messages_.image_msg);
 
   if(debug_ == 1 && count == 0){
-    file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+    file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
     file << "   Call setHasNewMessages(),  set has_new_messages_ = true\n";
     file << "ros_device.cpp -> PinholeRGBDevice::cameraInfoCallback() : End\n\n";
     file.close();
@@ -84,7 +87,7 @@ void PinholeRGBDevice::createSubscribers(ros::NodeHandle & nh,
 
   if(debug_ == 1){
     file.open(debug_code_flow_file_.c_str(), std::ios::app);
-    file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+    file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
     file << "ros_device.cpp -> PinholeRGBDevice::createSubscribers() : Begin\n";
     file << "    image_sub_ :  topic = " << ss.str() << "\n";
   }
@@ -95,7 +98,7 @@ void PinholeRGBDevice::createSubscribers(ros::NodeHandle & nh,
 
   if(debug_ == 1){
     file << "    camera_info_sub_ : topic = " << ss.str() << "\n";
-    file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+    file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
     file << "ros_device.cpp -> PinholeRGBDevice::createSubscribers() : End\n\n";
     file.close();
   }
@@ -109,7 +112,7 @@ PinholeRGBDevice::Data::Ptr PinholeRGBDevice::convertMessages(const Messages & m
   std::ofstream file;
   if(debug_ == 1 && count < 10){
     file.open(debug_code_flow_file_.c_str(), std::ios::app);
-    file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+    file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
     file << "ros_device.cpp -> PinholeRGBDevice::convertMessages() : Begin\n";
   }
 
@@ -127,7 +130,7 @@ PinholeRGBDevice::Data::Ptr PinholeRGBDevice::convertMessages(const Messages & m
     sensor_->cameraModel()->rectifyImage(image_ptr->image, rectified);
     data->image = rectified;
     if(debug_ == 1 && count < 10){
-      file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+      file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
       file << "   convertMessages() : rectifyImage succeed\n";
     }
   }
@@ -136,13 +139,13 @@ PinholeRGBDevice::Data::Ptr PinholeRGBDevice::convertMessages(const Messages & m
     ROS_WARN_STREAM_ONCE(ex.what() << std::endl << "Message (from topic \"" << image_sub_.getTopic() << "\"): " << std::endl << sensor_->cameraModel()->cameraInfo());
     data->image = image_ptr->image;
     if(debug_ == 1 && count < 10){
-      file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+      file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
       file << "   convertMessages() : rectifyImage failed\n";
     }
   }
 
   if(debug_ == 1 && count < 10){
-    file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
+    file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
     file << "ros_device.cpp -> PinholeRGBDevice::convertMessages() : End\n\n";
     file.close();
   }

@@ -16,7 +16,7 @@
 #include "opencv2/opencv.hpp"
 //#include "opencv2/highgui.hpp"
 
-#include "camera_hc.hpp"      
+#include "camera_dh.hpp"      
 #include "log.h"
 #include "comdef.h"
 
@@ -41,7 +41,7 @@ int main(int argc, char** argv){
 
 	cv::Mat image;
 
-	ros::init(argc, argv, "hc_bridge");
+	ros::init(argc, argv, "dh_bridge");
 	ros::NodeHandle nh;
 
 	int debug = 0;
@@ -56,12 +56,12 @@ int main(int argc, char** argv){
 		debug_file.open(debug_code_flow_file.c_str(), std::ios::app);
 		//debug_file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
 		debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
-		debug_file << "hc_bridge.cpp -> main() : Begin\n\n";
+		debug_file << "dh_bridge.cpp -> main() : Begin\n\n";
 	}
 
 	std::string cameraName, cameraIP;
 
-	int cameraPORT = 8000;
+	int cameraPORT = 37777;
 	double fx, fy, cx, cy;
 
 	ros::param::get("~sensor_name", cameraName); // that is: /node_name/cameraName
@@ -75,12 +75,12 @@ int main(int argc, char** argv){
 	if(debug == 1){
 		//debug_file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
 		debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
-		debug_file << "		hc_bridge.cpp : sensor_name = " << cameraName << "\n\n";
-		debug_file << "		hc_bridge.cpp : camera_ip = " << cameraIP << "\n\n";
-		debug_file << "		hc_bridge.cpp : fx = " << fx << "\n\n";
-		debug_file << "		hc_bridge.cpp : fy = " << fy << "\n\n";
-		debug_file << "		hc_bridge.cpp : cx = " << cx << "\n\n";
-		debug_file << "		hc_bridge.cpp : cy = " << cy << "\n\n";
+		debug_file << "		dh_bridge.cpp : sensor_name = " << cameraName << "\n\n";
+		debug_file << "		dh_bridge.cpp : camera_ip = " << cameraIP << "\n\n";
+		debug_file << "		dh_bridge.cpp : fx = " << fx << "\n\n";
+		debug_file << "		dh_bridge.cpp : fy = " << fy << "\n\n";
+		debug_file << "		dh_bridge.cpp : cx = " << cx << "\n\n";
+		debug_file << "		dh_bridge.cpp : cy = " << cy << "\n\n";
 	}
 	
 	ros::Publisher imagePub = nh.advertise<sensor_msgs::Image>("/" + cameraName + "/" + "image", 2);
@@ -89,8 +89,8 @@ int main(int argc, char** argv){
     if(debug == 1){
     	//debug_file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
     	debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
-		debug_file << "		hc_bridge.cpp : imagePub, topic = /" << cameraName << "/image\n\n";
-		debug_file << "		hc_bridge.cpp : infoPub, topic = /" << cameraName << "/camera_info\n\n";
+		debug_file << "		dh_bridge.cpp : imagePub, topic = /" << cameraName << "/image\n\n";
+		debug_file << "		dh_bridge.cpp : infoPub, topic = /" << cameraName << "/camera_info\n\n";
 		debug_file.close();
 	}
 
@@ -103,17 +103,16 @@ int main(int argc, char** argv){
 
     #ifndef USE_DEBUG_CAMERA
     // Create Camera handle
-    CAMERA_HC *camera = new CAMERA_HC();
-    if (0 !=camera->createIPC(cameraIP.c_str(), cameraPORT, 0))
+    CAMERA_DH *camera = new CAMERA_DH();
+    void *ipc = camera->createIPC(cameraIP.c_str(), cameraPORT, 1);
+    if(ipc === 0)
     {
         printf("Create IPC failed: %s:%d\n",cameraIP.c_str(), cameraPORT);
         return -1;
     }
-    usleep(1e6);
 
-	if( 0 != camera->getImage(image) ){
-		ROS_ERROR("Could not open IP camera!");
-	}
+    usleep(1e6); // Wait 1s to init camera configuration
+    image = camera->getImage(ipc);
 	#endif
 
 	// camera_info
@@ -140,8 +139,7 @@ int main(int argc, char** argv){
 	while(ros::ok){
 
 		#ifndef USE_DEBUG_CAMERA
-		if( 0 != camera->getImage(image) )
-			continue;
+		image = camera->getImage(ipc);
 		#endif
 
 		#ifdef USE_DEBUG_CAMERA
@@ -158,7 +156,7 @@ int main(int argc, char** argv){
         	debug_file.open(debug_code_flow_file.c_str(), std::ios::app);
       		//debug_file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
       		debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
-			debug_file << "		hc_bridge.cpp : starting receive image from camera driver...\n\n";
+			debug_file << "		dh_bridge.cpp : starting receive image from camera driver...\n\n";
 			debug_file.close();
 		}
 
@@ -179,8 +177,8 @@ int main(int argc, char** argv){
       		debug_file.open(debug_code_flow_file.c_str(), std::ios::app);
       		//debug_file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
       		debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
-			debug_file << "		hc_bridge.cpp : imagePub, 	starting publish image...\n\n";
-			debug_file << "		hc_bridge.cpp : infoPub, 	starting publish camera_info...\n\n";
+			debug_file << "		dh_bridge.cpp : imagePub, 	starting publish image...\n\n";
+			debug_file << "		dh_bridge.cpp : infoPub, 	starting publish camera_info...\n\n";
 			debug_file.close();
 		}
 
@@ -209,9 +207,9 @@ int main(int argc, char** argv){
 	}
 	if(debug == 1){
 		debug_file.open(debug_code_flow_file.c_str(), std::ios::app);
-		debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
 		//debug_file << "time ms: " << clock() * 1000 / CLOCKS_PER_SEC << "\n";
-		debug_file << "hc_bridge.cpp -> main() : End\n\n";
+		debug_file << "ros time: " << ros::Time::now().toSec() << " (s) : " << ros::Time::now().toNSec() << "\n";
+		debug_file << "dh_bridge.cpp -> main() : End\n\n";
 		debug_file.close();
 	}
 	return 0;

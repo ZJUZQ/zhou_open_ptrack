@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
-<!-- SESSION ID: 1508037820 -->
+<!-- SESSION ID: 1508054332 -->
 <launch>
 
   <!-- Sensor parameters -->
-  <arg name="camera_ip"   default="192.168.200.201" />
-  <arg name="sensor_name" default="hc_101" />
+  <arg name="camera_ip"   default="192.168.200.203" />
+  <arg name="sensor_name" default="dh_103" />
 
   <!-- Detection node -->
-  <include file="$(find detection)/launch/detector_hc.launch">
+  <include file="$(find detection)/launch/detector_dh.launch">
     <arg name="camera_ip"               value="$(arg camera_ip)" />
     <arg name="rgb_camera_info_url"     value="file://$(find opt_calibration)/camera_info/rgb_$(arg sensor_id).yaml" />
     <arg name="sensor_name"             value="$(arg sensor_name)" />

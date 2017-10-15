@@ -2,29 +2,28 @@
 <launch>
 
 	<arg name="publish_frame" 			default="false" />
-	<arg name="sensor_name" 			default="hc_xx" />
+	<arg name="sensor_name" 			default="dh_xx" />
   	<arg name="camera_ip" 				default="" />
 
   	<!-- debug.yaml -->
   	<arg name="debug_yaml" default="" />
   	<!-- arg name="debug_yaml" default="$(find opt_calibration)/conf/debug.yaml" / -->
 
-	<node pkg="hc_bridge" type="hc_bridge" name="$(arg sensor_name)_hc_bridge" respawn="true" output="screen">
-		<rosparam file="$(find hc_bridge)/config/parameters.yaml" command="load" />
+	<node pkg="dh_bridge" type="dh_bridge" name="$(arg sensor_name)_dh_bridge" respawn="true" output="screen">
+		<rosparam file="$(find dh_bridge)/config/parameters.yaml" command="load" />
 		<param name="sensor_name" 	value="$(arg sensor_name)" type="str" />
 		<param name="camera_ip" 	value="$(arg camera_ip)" type="str" />
 
 		<rosparam command="load"  file="$(arg debug_yaml)" /> 
 	</node>
 
-	<include file="$(find hc_bridge)/launch/include/hc_frames.launch">
+	<include file="$(find dh_bridge)/launch/include/dh_frames.launch">
     	<arg name="publish_frame" value="$(arg publish_frame)" />
     	<arg name="camera" value="$(arg sensor_name)"/>
   	</include>
 
 	<!-- point cloud with ir in place of rgb -->
-	<node pkg="nodelet" type="nodelet" name="$(arg sensor_name)_pixels_uv"
-	    args="standalone" respawn="false">
+	<node pkg="nodelet" type="nodelet" name="$(arg sensor_name)_pixels_uv" args="standalone" respawn="false">
 		<remap from="rgb/camera_info"             	to="/$(arg sensor_name)/camera_info" />
 		<remap from="rgb/image"        				to="/$(arg sensor_name)/image" />
 		<param name="queue_size" type="int" value="2" />

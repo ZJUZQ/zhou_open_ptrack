@@ -41,6 +41,7 @@
 import roslib; roslib.load_manifest('opt_calibration')
 import rospy
 from opt_msgs.srv import *
+import time
 
 class Listener :
 
@@ -49,13 +50,12 @@ class Listener :
     self.debug = rospy.get_param('~debug')
     self.debug_code_flow_file = rospy.get_param('~debug_code_flow_file')
 
+    # local variable debug_file
     debug_file = open(self.debug_code_flow_file, 'a')
 
     if self.debug == 1:
-      #debug_file.write(rospy.Time.now() + '\n')
+      debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
       debug_file.write('listener.py -> __init__() : Begin \n\n')
-
-
 
     self.sensor_launchers_dir = rospy.get_param('~sensor_launchers_dir')
     if self.sensor_launchers_dir[len(self.sensor_launchers_dir) - 1] != '/':
@@ -69,14 +69,24 @@ class Listener :
     if self.camera_poses_dir[len(self.camera_poses_dir) - 1] != '/':
       self.camera_poses_dir = self.camera_poses_dir + '/'
     
-
+    if self.debug == 1:
+      debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
+      debug_file.write('  listener.py -> __init__() : Call rospy.Service("create_sensor_launch") \n\n')
     self.create_sensor_launch_srv = rospy.Service('create_sensor_launch', OPTSensor, self.handle_create_sensor_launch)
+    
+    if self.debug == 1:
+      debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
+      debug_file.write('  listener.py -> __init__() : Call rospy.Service("create_detector_launch") \n\n')
     self.create_detector_launch_srv = rospy.Service('create_detector_launch', OPTSensor, self.handle_create_detector_launch)
+    
+    if self.debug == 1:
+      debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
+      debug_file.write('  listener.py -> __init__() : Call rospy.Service("create_camera_poses") \n\n')
     self.create_camera_poses_srv = rospy.Service('create_camera_poses', OPTTransform, self.handle_create_camera_poses)
 
 
     if self.debug == 1:
-      #debug_file.write(rospy.Time.now() + '\n')
+      debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
       debug_file.write('listener.py -> __init__() : End \n\n')
 
     debug_file.close()
@@ -85,7 +95,7 @@ class Listener :
     debug_file = open(self.debug_code_flow_file, 'a')
 
     if self.debug == 1:
-      #debug_file.write(rospy.Time.now() + '\n')
+      debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
       debug_file.write('listener.py -> handle_create_sensor_launch(request) : request.id = ' + request.id + '  Begin \n\n')
 
     file_name = self.sensor_launchers_dir + 'sensor_' + request.id + '.launch'
@@ -181,12 +191,36 @@ class Listener :
       #file.write('  <arg name="camera_id"   default="' + request.id + '" />\n')
       if request.ip == '':
         file.close();
-        rospy.logerr('Missing "ip" field for the SR4500 sensor!')
+        rospy.logerr('Missing "ip" field for the hc sensor!')
         return (OPTSensorResponse.STATUS_ERROR, 'Missing "ip" field!')
+
       file.write('  <arg name="camera_ip"   default="' + request.ip + '" />\n\n')
       
       file.write('  <!-- Launch sensor -->\n')
       file.write('  <include file="$(find hc_bridge)/launch/hc_bridge.launch">\n')
+      file.write('    <arg name="sensor_name"         value="$(arg sensor_name)" />\n')
+      file.write('    <arg name="camera_ip"           value="$(arg camera_ip)" />\n')
+      file.write('    <arg name="publish_frame"       value="true" />\n')
+
+      file.write('    <arg name="debug_yaml"          value="$(find opt_calibration)/conf/debug.yaml" />\n')
+
+      file.write('  </include>\n\n')
+      
+      file.write('  <!-- Publish a further transform -->\n')
+      file.write('  <node pkg="tf" type="static_transform_publisher" name="$(arg sensor_name)_broadcaster" args="0 0 0 1.57079 -1.57079 0 /$(arg sensor_name) /$(arg sensor_name)_link  100" />\n\n')     
+
+    elif request.type == OPTSensorRequest.TYPE_DH:
+      file.write('  <arg name="sensor_name"     default="' + request.id + '" />\n')
+      #file.write('  <arg name="camera_id"   default="' + request.id + '" />\n')
+      if request.ip == '':
+        file.close();
+        rospy.logerr('Missing "ip" field for the dh sensor!')
+        return (OPTSensorResponse.STATUS_ERROR, 'Missing "ip" field!')
+
+      file.write('  <arg name="camera_ip"   default="' + request.ip + '" />\n\n')
+      
+      file.write('  <!-- Launch sensor -->\n')
+      file.write('  <include file="$(find dh_bridge)/launch/dh_bridge.launch">\n')
       file.write('    <arg name="sensor_name"         value="$(arg sensor_name)" />\n')
       file.write('    <arg name="camera_ip"           value="$(arg camera_ip)" />\n')
       file.write('    <arg name="publish_frame"       value="true" />\n')
@@ -203,7 +237,7 @@ class Listener :
     rospy.loginfo(file_name + ' created!');
 
     if self.debug == 1:
-      #debug_file.write(rospy.Time.now() + '\n')
+      debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
       debug_file.write('listener.py -> handle_create_sensor_launch(request) : request.id = ' + request.id + '  End \n\n')
     
     debug_file.close()
@@ -215,7 +249,7 @@ class Listener :
     debug_file = open(self.debug_code_flow_file, 'a')
 
     if self.debug == 1:
-      #debug_file.write(rospy.Time.now() + '\n')
+      debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
       debug_file.write('listener.py -> handle_create_detector_launch(request) : request.id = ' + request.id + '  Begin \n\n')
 
     #################### write: detection/launch/detection_node_xx.launch #################
@@ -298,11 +332,10 @@ class Listener :
       
       file.write('  <!-- Detection node -->\n')
       file.write('  <include file="$(find detection)/launch/detector_hc.launch">\n')
-      if request.serial != '':
-        file.write('    <arg name="camera_ip"               value="$(arg camera_ip)" />\n')
-        file.write('    <arg name="rgb_camera_info_url"     value="file://$(find opt_calibration)/camera_info/rgb_$(arg sensor_id).yaml" />\n')
-      else:
-        file.write('    <arg name="rgb_camera_info_url"     value="file://$(find opt_calibration)/camera_info/rgb_$(arg sensor_name).yaml" />\n')
+
+      file.write('    <arg name="camera_ip"               value="$(arg camera_ip)" />\n')
+      file.write('    <arg name="rgb_camera_info_url"     value="file://$(find opt_calibration)/camera_info/rgb_$(arg sensor_id).yaml" />\n')    
+    
       file.write('    <arg name="sensor_name"             value="$(arg sensor_name)" />\n')
       file.write('    <arg name="ground_from_calibration" value="true" />\n')
       file.write('  </include>\n\n')
@@ -312,12 +345,11 @@ class Listener :
       file.write('  <arg name="sensor_name" default="' + request.id + '" />\n\n')
       
       file.write('  <!-- Detection node -->\n')
-      file.write('  <include file="$(find detection)/launch/detector_hc.launch">\n')
-      if request.serial != '':
-        file.write('    <arg name="camera_ip"               value="$(arg camera_ip)" />\n')
-        file.write('    <arg name="rgb_camera_info_url"     value="file://$(find opt_calibration)/camera_info/rgb_$(arg sensor_id).yaml" />\n')
-      else:
-        file.write('    <arg name="rgb_camera_info_url"     value="file://$(find opt_calibration)/camera_info/rgb_$(arg sensor_name).yaml" />\n')
+      file.write('  <include file="$(find detection)/launch/detector_dh.launch">\n')
+
+      file.write('    <arg name="camera_ip"               value="$(arg camera_ip)" />\n')
+      file.write('    <arg name="rgb_camera_info_url"     value="file://$(find opt_calibration)/camera_info/rgb_$(arg sensor_id).yaml" />\n')    
+    
       file.write('    <arg name="sensor_name"             value="$(arg sensor_name)" />\n')
       file.write('    <arg name="ground_from_calibration" value="true" />\n')
       file.write('  </include>\n\n')
@@ -327,8 +359,9 @@ class Listener :
     rospy.loginfo(file_name + ' created!');
 
     if self.debug == 1:
-      #debug_file.write(rospy.Time.now() + '\n')
+      debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
       debug_file.write('listener.py -> handle_create_detector_launch(request) : request.id = ' + request.id + '  End \n\n')
+    
     debug_file.close()
   
     return (OPTSensorResponse.STATUS_OK, file_name + ' created!')
@@ -337,7 +370,7 @@ class Listener :
     debug_file = open(self.debug_code_flow_file, 'a')
 
     if self.debug == 1:
-      #debug_file.write(rospy.Time.now() + '\n')
+      debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
       debug_file.write('listener.py -> handle_create_camera_poses(request) : request.id = ' + request.id + '  Begin \n\n')
 
 
@@ -359,7 +392,7 @@ class Listener :
     rospy.loginfo(file_name + ' created!');
 
     if self.debug == 1:
-      #debug_file.write(rospy.Time.now() + '\n')
+      debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
       debug_file.write('listener.py -> handle_create_camera_poses(request) : request.id = ' + request.id + '  End \n\n')
     
     return (OPTTransformResponse.STATUS_OK, file_name + ' created!')
@@ -373,6 +406,7 @@ if __name__ == '__main__' :
 
   if debug == 1:
     debug_file = open(debug_file_name, 'a')
+    debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
     debug_file.write('listener.py -> __main__ : Begin \n\n')
     debug_file.close()
   
@@ -386,5 +420,6 @@ if __name__ == '__main__' :
 
   if debug == 1:
     debug_file = open(debug_file_name, 'a')
+    debug_file.write('ros time: ' + str(rospy.Time.now().secs) + ' (s) : ' + str(rospy.Time.now().nsecs) + '\n')
     debug_file.write('listener.py -> __main__ : End \n\n')
     debug_file.close()

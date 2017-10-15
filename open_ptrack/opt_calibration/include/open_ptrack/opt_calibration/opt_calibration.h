@@ -283,7 +283,8 @@ private:
   bool floor_estimated_;
   cb::Plane floor_;
 
-
+  int m_debug;
+  std::string m_debug_code_flow_file;
 };
 
 } /* namespace opt_calibration */

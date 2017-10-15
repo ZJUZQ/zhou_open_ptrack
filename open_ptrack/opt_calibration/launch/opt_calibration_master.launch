@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- SESSION ID: 1507985328 -->
+<!-- SESSION ID: 1508054332 -->
 <launch>
 
   <!-- Calibration parameters -->
@@ -15,8 +15,8 @@
   <!-- Network parameters -->
   <arg name="num_sensors"   default="1" />
 
-  <arg name="sensor_0_ip"   default="192.168.200.201" />
-  <arg name="sensor_0_id"   default="hc_101" />
+  <arg name="sensor_0_ip"   default="192.168.200.203" />
+  <arg name="sensor_0_id"   default="dh_103" />
   <arg name="sensor_0_name" default="$(arg sensor_0_id)" />
 
   <arg name="rows"          default="6" />
@@ -29,6 +29,8 @@
 
   <!-- Plot calibration status -->
   <node name="opt_calibration_status_plot" pkg="opt_calibration" type="status_plot.py" output="screen">
+    <rosparam command="load"  file="$(arg debug_yaml)" /> 
+
     <remap from="~calibration_status" to="/opt_calibration/status" />
   </node>
 

@@ -7,6 +7,8 @@
 
 #include <open_ptrack/opt_calibration/opt_checkerboard_extraction.h>
 
+#include <fstream>
+
 namespace open_ptrack
 {
 namespace opt_calibration

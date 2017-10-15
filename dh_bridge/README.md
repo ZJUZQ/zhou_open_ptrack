@@ -1,6 +1,8 @@
-A ROS node for hc cameras. 
+A ROS node for dh cameras. 
 
 You can use the parameters.yaml file inside the config folder, to change the paramters to your needs.
+
+Before catkin_make, remember to copy the following to CMakeLists.txt:
 
 ########################################################################
 
